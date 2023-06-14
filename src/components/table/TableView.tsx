@@ -1,4 +1,4 @@
-import './tableStyle.css';
+import './tableStyles.css';
 import * as React from 'react';
 import { type ITable } from '../../models/ITable';
 import Table from './Table';
