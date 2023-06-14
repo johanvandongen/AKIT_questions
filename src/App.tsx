@@ -1,47 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styling/App.css';
-// import { Login } from './features/login/login';
-import { type ITable } from './models/ITable';
-import Filter from './features/filter/Filter';
-import { TableView } from './components/table/TableView';
+import Login from './features/login/Login';
+import Home from './pages/Home';
 
 function App(): JSX.Element {
-    // const [user, setUser] = useState<string | null>(null);
-    const [tables] = useState<ITable[]>(
-        JSON.parse(localStorage.getItem('tables') ?? '[]') as ITable[]
-    );
-    const [activeTables, setActiveTables] = useState<ITable[]>(
-        JSON.parse(localStorage.getItem('tables') ?? '[]') as ITable[]
-    );
-    // const [accessToken, setAccessToken] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        localStorage.setItem('tables', JSON.stringify(tables));
-    }, [tables]);
-
-    useEffect(() => {
-        setActiveTables(tables);
-    }, [tables]);
+    const signIn = (username: string, password: string): void => {
+        // TODO
+        setIsLoggedIn(true);
+    };
 
     return (
         <div className="App" style={{ backgroundColor: '#30475E' }}>
-            <div className="header">
-                <h1>Author Questions</h1>
-
-                <div className="login"></div>
-            </div>
-
-            <div className="settings">
-                <div className="right-section">
-                    <Filter
-                        tables={tables}
-                        setActiveTables={(tables) => {
-                            setActiveTables(tables);
-                        }}
-                    />
-                </div>
-            </div>
-            <TableView tables={activeTables} />
+            {isLoggedIn ? (
+                <Home />
+            ) : (
+                <Login
+                    signIn={(username: string, password: string) => {
+                        signIn(username, password);
+                    }}
+                />
+            )}
         </div>
     );
 }
