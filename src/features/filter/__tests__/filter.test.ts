@@ -1,5 +1,5 @@
-import { type ITable } from '../../models/ITable';
-import { answeredSearch, generalSearch, treatedOptions } from '../filter';
+import { type ITable } from '../../../models/ITable';
+import { answeredSearch, generalSearch, treatedOptions } from '../utils/filter';
 
 const testTable: ITable = {
     tableId: 'This',

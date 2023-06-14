@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { type ITable } from '../models/ITable';
-import { answeredSearch, generalSearch, treatedOptions } from '../utils/filter';
+import { type ITable } from '../../models/ITable';
+import { answeredSearch, generalSearch, treatedOptions } from './utils/filter';
 
 interface IInputConfirmProps {
     tables: ITable[];
