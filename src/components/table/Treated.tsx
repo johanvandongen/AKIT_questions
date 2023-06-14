@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tooltip as ReactToolTip } from 'react-tooltip';
-import '../App.css';
-import { isAnswered } from '../utils/utils';
+import './tableStyle.css';
+import { isAnswered } from '../../utils/utils';
 
 interface ITreatedProps {
     text: string;

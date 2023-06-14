@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styling/App.css';
+import './styling/App.css';
 // import { Login } from './features/login/login';
 import { type ITable } from './models/ITable';
 import Filter from './features/filter/Filter';

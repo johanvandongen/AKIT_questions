@@ -1,6 +1,6 @@
+import './tableStyle.css';
 import React from 'react';
-import { type ITable } from '../models/ITable';
-import '../App.css';
+import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
 
 interface ITableProps {
