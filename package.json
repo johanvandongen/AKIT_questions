@@ -37,7 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./",
-    "dev": "nodemon ./src/database/db.ts"
+    "dev": "nodemon src/database/db.ts"
   },
   "type": "module",
   "eslintConfig": {
