@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TableView } from '../components/table/TableView';
-import { db } from '../database/db';
+import { db } from '../server/db';
 
 export default function Home(): JSX.Element {
     void db();
