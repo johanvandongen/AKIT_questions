@@ -11,7 +11,9 @@ router.post('/', async (req, res) => {
         position: req.body.position,
         level: req.body.level,
     };
+    console.log('router post', newDocument);
     let collection = await db.collection('records');
+    console.log('collection', collection);
     let result = await collection.insertOne(newDocument);
     res.send(result).status(204);
 })
