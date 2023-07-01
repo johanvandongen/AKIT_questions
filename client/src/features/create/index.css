@@ -1,0 +1,43 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    display: block;
+    /* flex-direction: column; */
+}
+
+.post-button {
+    width: 20%;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.close { 
+    background-color: transparent;
+    border: 0;
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.2s ease-in;
+}
+
+.close:hover {
+    background-color: aqua;
+    opacity: 0.7;
+}
+/* .question-modal {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+} */
