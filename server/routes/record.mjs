@@ -38,4 +38,11 @@ router.post('/', questionSchema, async (req, res) => {
     res.send(result).status(204);
 })
 
+// Get a list of questions
+router.get('/', questionSchema, async (req, res) => {
+    let collection = await db.collection('Authoring_Questions');
+    let result = await collection.find({}).toArray();
+    res.send(result).status(200);
+})
+
 export default router;
