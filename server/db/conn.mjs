@@ -12,6 +12,6 @@ try {
     console.log('db error', error)
 }
 
-let db = conn.db('sample_training');
+let db = conn.db('AK_DB');
 
 export default db;
