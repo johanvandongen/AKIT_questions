@@ -2,9 +2,9 @@ import { type ITable } from '../../../models/ITable';
 import { isAnswered } from '../../../utils/utils';
 
 export enum treatedOptions {
-    yes = 'yes',
-    no = 'no',
-    pending = 'pending',
+    yes = 'Yes',
+    no = 'No',
+    pending = 'Pending',
     all = 'all',
 }
 
@@ -17,11 +17,11 @@ export const answeredSearch = (table: ITable, answer: treatedOptions): boolean =
     if (answer === treatedOptions.all) {
         return true;
     } else if (answer === treatedOptions.yes) {
-        return isAnswered(table.treated);
+        return isAnswered(table.treated.state);
     } else if (answer === treatedOptions.no) {
-        return table.treated.trim() === '';
+        return table.treated.state.trim() === '';
     } else if (answer === treatedOptions.pending) {
-        return !isAnswered(table.treated) && table.treated.trim() !== '';
+        return !isAnswered(table.treated.state) && table.treated.state.trim() !== '';
     }
     return false;
 };

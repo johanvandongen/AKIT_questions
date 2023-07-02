@@ -2,6 +2,7 @@ import './tableStyles.css';
 import React from 'react';
 import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
+import Button from '../ui/Button';
 
 interface ITableProps {
     table: ITable;
@@ -12,12 +13,13 @@ interface ITableProps {
  * @param table table with information
  */
 export default function Table({ table }: ITableProps): JSX.Element {
+    console.log('tableee', table)
     return (
         <div className="table-container">
             <div className="table-header">
                 <p>{table.date}</p>
                 <p>{table.issue}</p>
-                <Treated text={table.treated} id={table.tableId} />
+                <Treated text={table.treated.state} id={table._id} />
             </div>
 
             <div className="table-row-horizontal">
@@ -33,12 +35,11 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 <p>
                     <span className="table-field">Answer:</span>
                 </p>
-                {table.answer.map((answer) => (
-                    <div key={'answer' + table.tableId + answer}>
-                        <p>{answer}</p>
-                        <br></br>
-                    </div>
-                ))}
+                {table.answer}
+            </div>
+            <div className='table-row'>
+                <Button onClick={() => {console.log('delete clicked of:', table._id)}} text={'Delete'}/>
+
             </div>
         </div>
     );

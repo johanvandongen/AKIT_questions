@@ -22,7 +22,7 @@ export default function Treated({ text, id }: ITreatedProps): JSX.Element {
                 {/* <ReactToolTip place="top" content={text} anchorSelect={'#id' + id} /> */}
             </>
         );
-    } else if (text.trim() === '') {
+    } else if (text === 'No') {
         return (
             <>
                 <p id={'id' + id}>&#10006;</p>

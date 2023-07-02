@@ -1,13 +1,16 @@
 export interface ITable {
-    tableId: string;
+    _id: string;
     author: string;
     date: string;
     issue: string;
-    exerciseId: string;
+    exerciseIds: string[];
     screenshot: any;
-    question: string[];
+    question: string;
     chapter: string;
-    treated: string;
-    answer: string[];
-    authorReply: string[];
+    treated: {
+        state: string,
+        remark: string,
+    };
+    answer: string;
+    authorReply: string;
 }
