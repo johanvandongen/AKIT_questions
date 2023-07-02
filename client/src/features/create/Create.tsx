@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import QuestionForm from './QuestionForm';
+import axios from 'axios';
 import './index.css';
+import './spinner.css';
 
 Modal.setAppElement('#root');
 
@@ -24,28 +26,29 @@ export interface questionForm {
 export default function Create(): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [succesful, setSuccesful] = useState(false);
+    const [error, setError] = useState(false);
 
     const onSubmit = async (question: questionForm): Promise<void> => {
         setIsLoading(true);
-        // e.preventDefault();
-        // const newDoc = { name: 'jop', position: 'man', level: 'high' };
-        const newDoc = { ...question };
-        console.log(newDoc);
+        setError(false);
+        setSuccesful(false);
+        console.log(question);
 
-        await fetch('http://localhost:5050/record', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newDoc),
-        })
+        await axios
+            .post('http://localhost:5050/record', JSON.stringify(question), {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 setIsLoading(false);
                 console.log('no errorr', response);
+                setSuccesful(true);
             })
             .catch((error) => {
                 console.log(error);
-                // window.alert(error);
+                setError(true);
                 setIsLoading(false);
             })
             .finally(() => {
@@ -63,21 +66,40 @@ export default function Create(): JSX.Element {
             >
                 Create record
             </button>
-            <Modal isOpen={modelIsOpen}>
-                {isLoading && <p>Loading...</p>}
-                <div className="modal-header">
-                    <h2>Add your question</h2>
+            <Modal
+                isOpen={modelIsOpen}
+                style={{
+                    content: {
+                        width: '50%',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                    },
+                }}
+            >
+                <div className="modal-content">
+                    {isLoading && (
+                        <div className="spinner-container">
+                            <div className="spinner"></div>
+                        </div>
+                    )}
+                    <div className="modal-header">
+                        <h2>Add your question</h2>
 
-                    <button
-                        className="close"
-                        onClick={() => {
-                            setModalIsOpen(false);
-                        }}
-                    >
-                        &#x2715;
-                    </button>
+                        <button
+                            className="close"
+                            onClick={() => {
+                                setModalIsOpen(false);
+                            }}
+                        >
+                            &#x2715;
+                        </button>
+                    </div>
+                    <QuestionForm onSubmit={onSubmit} />
+
+                    {error && <p>Not succesful</p>}
+                    {succesful && <p>Succesful</p>}
                 </div>
-                <QuestionForm onSubmit={onSubmit} />
             </Modal>
         </div>
     );

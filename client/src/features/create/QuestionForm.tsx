@@ -3,6 +3,13 @@ import { useState } from 'react';
 import './index.css';
 import { type questionForm } from './Create';
 
+enum authors {
+    JAYIN = 'Jayin',
+    JOHAN = 'Johan',
+    KAY = 'Kay',
+    SEBAS = 'Sebas',
+}
+
 export interface IQuestionFormProps {
     onSubmit: any;
 }
@@ -24,13 +31,12 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
     });
 
     return (
-        <div className="form">
-            <form>
+        <div className="form-container">
+            <form className="form">
                 <div className="input-field">
                     <p>Question</p>
 
-                    <input
-                        type="text"
+                    <textarea
                         value={question.question}
                         onChange={(e) => {
                             setQuestion((prev) => ({ ...prev, question: e.target.value }));
@@ -40,14 +46,23 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
 
                 <div className="input-field">
                     <p>author</p>
-
-                    <input
-                        type="text"
-                        value={question.author}
+                    <select
                         onChange={(e) => {
-                            setQuestion((prev) => ({ ...prev, author: e.target.value }));
+                            setQuestion((prev) => ({
+                                ...prev,
+                                author: authors[e.target.value as keyof typeof authors],
+                            }));
                         }}
-                    />
+                    >
+                        <option disabled selected value={'noAuthor'}>
+                            -- select an option --
+                        </option>
+                        {Object.keys(authors).map((key) => (
+                            <option key={key} value={key}>
+                                {authors[key as keyof typeof authors]}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="input-field">
                     <p>Exercise id</p>

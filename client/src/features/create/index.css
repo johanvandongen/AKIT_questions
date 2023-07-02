@@ -1,11 +1,30 @@
+.modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+ }
+ 
 .form {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.form > div {
+    width: 30%;
 }
 
 .input-field {
-    display: block;
-    /* flex-direction: column; */
+    /* display: block; */
+    flex-direction: column;
+    align-items: center;
+    /* background-color: aqua; */
+    /* width: 100%; */
+}
+
+.input-field input, .input-field textarea {
+    width: 100%;
+    font-size: 20px;
 }
 
 .post-button {
@@ -33,11 +52,3 @@
     background-color: aqua;
     opacity: 0.7;
 }
-/* .question-modal {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-} */
