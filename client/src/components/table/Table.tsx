@@ -1,9 +1,11 @@
 import './tableStyles.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
 import Button from '../ui/Button';
 import axios from 'axios';
+import '../../features/create/index.css';
+import '../../features/create/spinner.css';
 
 interface ITableProps {
     table: ITable;
@@ -15,8 +17,41 @@ interface ITableProps {
  */
 export default function Table({ table }: ITableProps): JSX.Element {
     console.log('tableee', table);
+    const [isLoading, setIsLoading] = useState(false);
+    const [succesful, setSuccesful] = useState(false);
+    // const [error, setError] = useState(false);
+
+    const handelDelete = async (): Promise<void> => {
+        setIsLoading(true);
+        // setError(false);
+        setSuccesful(false);
+        await axios
+            .delete(`http://localhost:5050/record/${table._id}`)
+            .then((response) => {
+                console.log('succesfully deleted', response);
+                setIsLoading(false);
+                setSuccesful(true);
+            })
+            .catch((err) => {
+                console.log('smth went wrong', err);
+                setIsLoading(false);
+                // setError(true);
+            });
+    };
+
+    // If deletion was succesful, dont show the table anymore. Could also refetch all tables.
+    if (succesful) {
+        return <></>;
+    }
+
     return (
         <div className="table-container">
+            {isLoading && (
+                <div className="spinner-container">
+                    <div className="spinner"></div>
+                </div>
+            )}
+
             <div className="table-header">
                 <p>{table.date}</p>
                 <p>{table.issue}</p>
@@ -42,14 +77,7 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 <Button
                     onClick={async () => {
                         console.log('delete clicked of:', table._id);
-                        await axios
-                            .delete(`http://localhost:5050/record/${table._id}`)
-                            .then((response) => {
-                                console.log('succesfully deleted', response);
-                            })
-                            .catch((err) => {
-                                console.log('smth went wrong', err);
-                            });
+                        void handelDelete();
                     }}
                     text={'Delete'}
                 />

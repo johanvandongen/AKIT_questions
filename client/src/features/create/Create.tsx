@@ -22,8 +22,10 @@ export interface questionForm {
     answer: string;
     authorReply: string;
 }
-
-export default function Create(): JSX.Element {
+interface ICreateProps {
+    refresh: () => void;
+}
+export default function Create({ refresh }: ICreateProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [succesful, setSuccesful] = useState(false);
@@ -53,6 +55,7 @@ export default function Create(): JSX.Element {
             })
             .finally(() => {
                 setIsLoading(false);
+                refresh();
             });
     };
 

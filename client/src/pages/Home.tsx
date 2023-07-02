@@ -46,7 +46,11 @@ export default function Home(): JSX.Element {
 
             <div className="home-header">
                 <h2>Home screen</h2>
-                <Create />
+                <Create
+                    refresh={() => {
+                        void fetchTables();
+                    }}
+                />
                 <button
                     onClick={() => {
                         void fetchTables();
