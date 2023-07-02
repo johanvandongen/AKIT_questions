@@ -30,10 +30,16 @@ router.post('/', questionSchema, async (req, res) => {
         authorReply: req.body.authorReply,
     };
 
-    console.log('router post', newQuestion);
+    console.log('router post new question: \n', newQuestion);
 
     let collection = await db.collection('Authoring_Questions');
-    let result = await collection.insertOne(newQuestion);
+
+    let result = await collection.insertOne(newQuestion).then((result) => {
+        return result;
+    }).catch((err) => {
+        console.log('Error', err);
+        return 'Question not inserted since the question already existed';
+    });
 
     res.send(result).status(204);
 })
