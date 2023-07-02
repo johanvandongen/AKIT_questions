@@ -9,16 +9,19 @@ import '../../features/create/spinner.css';
 
 interface ITableProps {
     table: ITable;
+    refresh: () => void;
 }
 
 /**
  * Displays the table information in a nice view.
  * @param table table with information
  */
-export default function Table({ table }: ITableProps): JSX.Element {
+export default function Table({ table, refresh }: ITableProps): JSX.Element {
     console.log('tableee', table);
     const [isLoading, setIsLoading] = useState(false);
     const [succesful, setSuccesful] = useState(false);
+    const [updateSuccesful, setUpdateSuccesfulSuccesful] = useState(false);
+    const [answer, setAnswer] = useState('');
     // const [error, setError] = useState(false);
 
     const handelDelete = async (): Promise<void> => {
@@ -36,6 +39,27 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 console.log('smth went wrong', err);
                 setIsLoading(false);
                 // setError(true);
+            });
+    };
+
+    const handleSubmit = async (): Promise<void> => {
+        setIsLoading(true);
+        setUpdateSuccesfulSuccesful(false);
+        await axios
+            .patch(`http://localhost:5050/record/${table._id}`, JSON.stringify({ answer }), {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                console.log('succesfully updated', response);
+                setIsLoading(false);
+                setUpdateSuccesfulSuccesful(true);
+                refresh();
+            })
+            .catch((err) => {
+                console.log('smth went wrong', err);
+                setIsLoading(false);
             });
     };
 
@@ -71,9 +95,31 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 <p>
                     <span className="table-field">Answer:</span>
                 </p>
-                {table.answer}
+                {table.answer !== '' ? (
+                    table.answer
+                ) : (
+                    <div className="input-field">
+                        <textarea
+                            value={answer}
+                            placeholder={'question'}
+                            required={true}
+                            onChange={(e) => {
+                                setAnswer(e.target.value);
+                            }}
+                        />
+                    </div>
+                )}
             </div>
             <div className="table-row">
+                {table.answer === '' && (
+                    <Button
+                        onClick={async () => {
+                            console.log('submit clicked of:', table._id);
+                            void handleSubmit();
+                        }}
+                        text={'Submit'}
+                    />
+                )}
                 <Button
                     onClick={async () => {
                         console.log('delete clicked of:', table._id);

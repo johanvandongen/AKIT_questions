@@ -60,7 +60,14 @@ export default function Home(): JSX.Element {
                 />
             </div>
 
-            {tables !== null && <TableView tables={tables} />}
+            {tables !== null && (
+                <TableView
+                    tables={tables}
+                    refresh={() => {
+                        void fetchTables();
+                    }}
+                />
+            )}
         </div>
     );
 }
