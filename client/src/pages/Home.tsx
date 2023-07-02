@@ -6,17 +6,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import '../features/create/index.css';
 import '../features/create/spinner.css';
+import Button from '../components/ui/Button';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [succesful, setSuccesful] = useState(false);
-    const [error, setError] = useState(false);
+    // const [succesful, setSuccesful] = useState(false);
+    // const [error, setError] = useState(false);
 
     const fetchTables = async (): Promise<void> => {
         setIsLoading(true);
-        setError(false);
-        setSuccesful(false);
+        // setError(false);
+        // setSuccesful(false);
 
         await axios
             .get('http://localhost:5050/record', {})
@@ -24,11 +25,11 @@ export default function Home(): JSX.Element {
                 setIsLoading(false);
                 console.log('no errorr', response);
                 setTables(response.data);
-                setSuccesful(true);
+                // setSuccesful(true);
             })
             .catch((error) => {
                 console.log(error);
-                setError(true);
+                // setError(true);
                 setIsLoading(false);
             })
             .finally(() => {
@@ -51,13 +52,12 @@ export default function Home(): JSX.Element {
                         void fetchTables();
                     }}
                 />
-                <button
+                <Button
                     onClick={() => {
                         void fetchTables();
                     }}
-                >
-                    Fetch
-                </button>
+                    text={'Fetch'}
+                />
             </div>
 
             {tables !== null && <TableView tables={tables} />}

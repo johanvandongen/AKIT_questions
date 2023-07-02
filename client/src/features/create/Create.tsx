@@ -5,6 +5,7 @@ import QuestionForm from './QuestionForm';
 import axios from 'axios';
 import './index.css';
 import './spinner.css';
+import Button from '../../components/ui/Button';
 
 Modal.setAppElement('#root');
 
@@ -61,16 +62,16 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
 
     return (
         <div>
-            <button
+            <Button
                 onClick={() => {
                     console.log('here');
                     setModalIsOpen(true);
                 }}
-            >
-                Create record
-            </button>
+                text={'Create question'}
+            />
             <Modal
                 isOpen={modelIsOpen}
+                closeTimeoutMS={200}
                 style={{
                     content: {
                         width: '50%',
