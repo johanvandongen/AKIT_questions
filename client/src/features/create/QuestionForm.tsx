@@ -38,15 +38,19 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
 
                     <textarea
                         value={question.question}
+                        placeholder={'question'}
+                        required={true}
                         onChange={(e) => {
                             setQuestion((prev) => ({ ...prev, question: e.target.value }));
                         }}
                     />
+                    <span>Question should not be empty</span>
                 </div>
 
                 <div className="input-field">
                     <p>author</p>
                     <select
+                        required={true}
                         onChange={(e) => {
                             setQuestion((prev) => ({
                                 ...prev,
@@ -54,7 +58,7 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
                             }));
                         }}
                     >
-                        <option disabled selected value={'noAuthor'}>
+                        <option disabled selected value={''}>
                             -- select an option --
                         </option>
                         {Object.keys(authors).map((key) => (
@@ -63,12 +67,14 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
                             </option>
                         ))}
                     </select>
+                    <span>Author must be selected</span>
                 </div>
                 <div className="input-field">
                     <p>Exercise id</p>
 
                     <input
                         type="text"
+                        placeholder={'exercise id'}
                         value={question.exerciseIds}
                         onChange={(e) => {
                             setQuestion((prev) => ({ ...prev, exerciseIds: [e.target.value] }));
@@ -81,6 +87,7 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
 
                     <input
                         type="text"
+                        placeholder={'chapter'}
                         value={question.chapter}
                         onChange={(e) => {
                             setQuestion((prev) => ({ ...prev, chapter: e.target.value }));
@@ -93,6 +100,7 @@ export default function QuestionForm({ onSubmit }: IQuestionFormProps): JSX.Elem
 
                     <input
                         type="text"
+                        placeholder={'issue id'}
                         value={question.issue}
                         onChange={(e) => {
                             setQuestion((prev) => ({ ...prev, issue: e.target.value }));

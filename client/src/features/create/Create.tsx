@@ -71,9 +71,11 @@ export default function Create(): JSX.Element {
                 style={{
                     content: {
                         width: '50%',
+                        height: '70vh',
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
+                        borderRadius: '1rem',
                     },
                 }}
             >
@@ -97,8 +99,13 @@ export default function Create(): JSX.Element {
                     </div>
                     <QuestionForm onSubmit={onSubmit} />
 
-                    {error && <p>Not succesful</p>}
-                    {succesful && <p>Succesful</p>}
+                    {error && (
+                        <p>
+                            Sending the question was not succesful. Make sure that all required
+                            input fields are filled in.
+                        </p>
+                    )}
+                    {succesful && <p>Question was sent succesfully!</p>}
                 </div>
             </Modal>
         </div>
