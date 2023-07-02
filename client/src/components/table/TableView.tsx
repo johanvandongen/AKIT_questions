@@ -15,7 +15,7 @@ export function TableView({ tables }: ITableViewProps): JSX.Element {
     return (
         <div className="table-view">
             {tables.map((table: ITable) => (
-                <Table key={'table' + table._id + table.answer} table={table} />
+                <Table key={'table' + String(table._id) + String(table.answer)} table={table} />
             ))}
         </div>
     );

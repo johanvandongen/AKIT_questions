@@ -3,6 +3,7 @@ import React from 'react';
 import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
 import Button from '../ui/Button';
+import axios from 'axios';
 
 interface ITableProps {
     table: ITable;
@@ -13,7 +14,7 @@ interface ITableProps {
  * @param table table with information
  */
 export default function Table({ table }: ITableProps): JSX.Element {
-    console.log('tableee', table)
+    console.log('tableee', table);
     return (
         <div className="table-container">
             <div className="table-header">
@@ -37,9 +38,21 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 </p>
                 {table.answer}
             </div>
-            <div className='table-row'>
-                <Button onClick={() => {console.log('delete clicked of:', table._id)}} text={'Delete'}/>
-
+            <div className="table-row">
+                <Button
+                    onClick={async () => {
+                        console.log('delete clicked of:', table._id);
+                        await axios
+                            .delete(`http://localhost:5050/record/${table._id}`)
+                            .then((response) => {
+                                console.log('succesfully deleted', response);
+                            })
+                            .catch((err) => {
+                                console.log('smth went wrong', err);
+                            });
+                    }}
+                    text={'Delete'}
+                />
             </div>
         </div>
     );

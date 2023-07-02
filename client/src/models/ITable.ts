@@ -8,8 +8,8 @@ export interface ITable {
     question: string;
     chapter: string;
     treated: {
-        state: string,
-        remark: string,
+        state: string;
+        remark: string;
     };
     answer: string;
     authorReply: string;

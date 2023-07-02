@@ -1,5 +1,5 @@
 import { type ITable } from '../../../models/ITable';
-import { isAnswered } from '../../../utils/utils';
+import isAnswered from '../../../utils/utils';
 
 export enum treatedOptions {
     yes = 'Yes',

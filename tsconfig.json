@@ -2,6 +2,7 @@
     "compilerOptions": {
         "strict": true,
     },
+    "files": [],
     "references": [{
     "path": "./client"
 }, {

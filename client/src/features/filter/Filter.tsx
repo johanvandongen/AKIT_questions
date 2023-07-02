@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { type ITable } from '../../models/ITable';
-import { answeredSearch, generalSearch, treatedOptions } from './utils/filter';
+import { answeredSearch, generalSearch, treatedOptions } from './utils/filterTable';
 
 interface IInputConfirmProps {
     tables: ITable[];
@@ -15,7 +15,7 @@ export default function Filter({ tables, setActiveTables }: IInputConfirmProps):
     const filter = (input: string): void => {
         setActiveTables(
             tables.filter((table) => {
-                return generalSearch(table, input) && answeredSearch(table, treated);
+                return Boolean(generalSearch(table, input)) && answeredSearch(table, treated);
             })
         );
     };

@@ -51,4 +51,14 @@ router.get('/', questionSchema, async (req, res) => {
     res.send(result).status(200);
 })
 
+// This section will help you delete a record
+router.delete("/:id", async (req, res) => {
+    const query = { _id: new ObjectId(req.params.id) };
+  
+    const collection = db.collection("Authoring_Questions");
+    let result = await collection.deleteOne(query);
+  
+    res.send(result).status(200);
+  });
+
 export default router;

@@ -4,7 +4,7 @@
  * @param isAnswerdString string we want to check
  * @return true if it seems like the author got their question answered.
  */
-export const isAnswered = (isAnswerdString: string): boolean => {
+export default (isAnswerdString: string): boolean => {
     switch (isAnswerdString.trim()) {
         case 'ja':
             return true;
