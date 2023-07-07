@@ -4,8 +4,8 @@ import Modal from 'react-modal';
 import QuestionForm from './QuestionForm';
 import axios from 'axios';
 import './index.css';
-import './spinner.css';
 import Button from '../../components/ui/Button';
+import Spinner from '../../components/ui/spinner/Spinner';
 
 Modal.setAppElement('#root');
 
@@ -84,11 +84,7 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                 }}
             >
                 <div className="modal-content">
-                    {isLoading && (
-                        <div className="spinner-container">
-                            <div className="spinner"></div>
-                        </div>
-                    )}
+                    {isLoading && <Spinner />}
                     <div className="modal-header">
                         <h2>Add your question</h2>
 

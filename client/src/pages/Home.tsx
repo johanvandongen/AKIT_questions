@@ -5,8 +5,8 @@ import { type ITable } from '../models/ITable';
 import { useState } from 'react';
 import axios from 'axios';
 import '../features/create/index.css';
-import '../features/create/spinner.css';
 import Button from '../components/ui/Button';
+import Spinner from '../components/ui/spinner/Spinner';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
@@ -39,11 +39,7 @@ export default function Home(): JSX.Element {
 
     return (
         <div>
-            {isLoading && (
-                <div className="spinner-container">
-                    <div className="spinner"></div>
-                </div>
-            )}
+            {isLoading && <Spinner />}
 
             <div className="home-header">
                 <h2>Home screen</h2>

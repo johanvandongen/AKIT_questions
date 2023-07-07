@@ -4,10 +4,10 @@ import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
 import Button from '../ui/Button';
 import '../../features/create/index.css';
-import '../../features/create/spinner.css';
 import { RequestState } from '../../models/IRequest';
 import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQuestion';
 import { Answer } from '../../features/updateQuestion/Answer';
+import Spinner from '../ui/spinner/Spinner';
 
 interface ITableProps {
     table: ITable;
@@ -29,11 +29,7 @@ export default function Table({ table, refresh }: ITableProps): JSX.Element {
 
     return (
         <div className="table-container">
-            {deleteState.state === RequestState.Loading && (
-                <div className="spinner-container">
-                    <div className="spinner"></div>
-                </div>
-            )}
+            {deleteState.state === RequestState.Loading && <Spinner />}
 
             <div className="table-header">
                 <p>{table.date}</p>

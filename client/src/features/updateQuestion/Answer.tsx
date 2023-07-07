@@ -10,6 +10,12 @@ export interface IAnswerProps {
     refresh: () => void;
 }
 
+/**
+ * Renders the answer section of a question. If an answer does not exist, a textarea to enter a question
+ * is given. Pressing submit will update the question.
+ * @param table table
+ * @param refresh refresh function to refetch all tables
+ */
 export function Answer({ table, refresh }: IAnswerProps): JSX.Element {
     const { requestState: updateState, updateQuestion } = useUpdateQuestion();
     const [answer, setAnswer] = useState('');
