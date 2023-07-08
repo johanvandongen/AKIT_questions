@@ -1,0 +1,116 @@
+:root {
+  --red30: #6ecaf5;
+  --black80: #222831;
+  --gray10: #DDDDDD;
+  --blue-gray: #30475e;
+  --orange: #f8920cff;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* background-color: white; */
+}
+
+body {
+  background-color: white;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5rem;
+  height: 10rem;
+  background-color: var(--red30);
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  background-color: var(--blue-gray);
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 20%;
+}
+
+.settings {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 5rem;
+  color: var(--gray10);
+  align-items: flex-end;
+}
+
+.settings .left-section {
+  width: 32%;
+}
+
+.settings .right-section {
+  /* width: 25%; */
+}
+
+.input-confirm {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--black80);
+}
+
+.input-confirm button {
+  margin-left: auto;
+}
+
+.input-confirm p {
+  width: 30%;
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.search-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--black80);
+}
+
+.search-row p{
+  padding-right: 1rem;
+}
+
+.home-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #0a6badff;
+  padding: 3rem 5rem; 
+  margin-bottom: 3rem;
+  gap: 1rem;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+}
+
