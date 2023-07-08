@@ -8,12 +8,14 @@
   }
   
   .table-container {
+    justify-content: flex-start;
     position: relative;
     background-color: #DDDDDD;
     text-align: left;
     padding: 5;
     border-radius: 1rem;
     padding-bottom: 1rem;
+    overflow: hidden;
   }
   
   .table-row {
@@ -56,3 +58,26 @@
     font-weight: bold;
     margin-right: 0.5rem;
   }
+
+.image-list-container {
+  /* position: relative; */
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  gap: 1rem;
+}
+
+.image-in-modal img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+
+.image-in-modal {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

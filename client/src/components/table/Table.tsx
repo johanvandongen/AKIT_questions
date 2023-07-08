@@ -8,6 +8,7 @@ import { RequestState } from '../../models/IRequest';
 import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQuestion';
 import { Answer } from '../../features/updateQuestion/Answer';
 import Spinner from '../ui/spinner/Spinner';
+import ImageList from './ImageView';
 
 interface ITableProps {
     table: ITable;
@@ -45,6 +46,7 @@ export default function Table({ table, refresh }: ITableProps): JSX.Element {
                     <span className="table-field">Question:</span>
                 </p>
                 <p>{table.question}</p>
+                <ImageList images={table.screenshot} />
             </div>
             <Answer table={table} refresh={refresh} />
             <div className="table-row">
