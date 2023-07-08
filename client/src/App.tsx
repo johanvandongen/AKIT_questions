@@ -12,7 +12,7 @@ function App(): JSX.Element {
     };
 
     return (
-        <div className="App" style={{ backgroundColor: '#30475E' }}>
+        <div className="App" style={{ backgroundColor: 'white' }}>
             {isLoggedIn ? (
                 <Home />
             ) : (

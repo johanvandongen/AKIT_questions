@@ -53,6 +53,7 @@ export default function Home(): JSX.Element {
                         void fetchTables();
                     }}
                     text={'Fetch'}
+                    theme="orange"
                 />
             </div>
 

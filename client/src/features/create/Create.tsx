@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import QuestionForm from './QuestionForm';
-import axios from 'axios';
 import './index.css';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/spinner/Spinner';
+import useCreateQuestion from './hooks/useCreateQuestion';
+import { RequestState } from '../../models/IRequest';
 
 Modal.setAppElement('#root');
 
@@ -23,42 +24,19 @@ export interface questionForm {
     answer: string;
     authorReply: string;
 }
+
 interface ICreateProps {
     refresh: () => void;
 }
 export default function Create({ refresh }: ICreateProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [succesful, setSuccesful] = useState(false);
-    const [error, setError] = useState(false);
+    const { requestState, createQuestion } = useCreateQuestion();
 
-    const onSubmit = async (question: questionForm): Promise<void> => {
-        setIsLoading(true);
-        setError(false);
-        setSuccesful(false);
-        console.log(question);
-
-        await axios
-            .post('http://localhost:5050/record', JSON.stringify(question), {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then((response) => {
-                setIsLoading(false);
-                console.log('no errorr', response);
-                setSuccesful(true);
-            })
-            .catch((error) => {
-                console.log(error);
-                setError(true);
-                setIsLoading(false);
-            })
-            .finally(() => {
-                setIsLoading(false);
-                refresh();
-            });
-    };
+    useEffect(() => {
+        if (requestState.state === RequestState.Successful) {
+            refresh();
+        }
+    }, [requestState.state]);
 
     return (
         <div>
@@ -68,6 +46,7 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                     setModalIsOpen(true);
                 }}
                 text={'Create question'}
+                theme={'orange'}
             />
             <Modal
                 isOpen={modelIsOpen}
@@ -84,7 +63,7 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                 }}
             >
                 <div className="modal-content">
-                    {isLoading && <Spinner />}
+                    {requestState.state === RequestState.Loading && <Spinner />}
                     <div className="modal-header">
                         <h2>Add your question</h2>
 
@@ -97,15 +76,12 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                             &#x2715;
                         </button>
                     </div>
-                    <QuestionForm onSubmit={onSubmit} />
+                    <QuestionForm onSubmit={createQuestion} requestState={requestState} />
 
-                    {error && (
-                        <p>
-                            Sending the question was not succesful. Make sure that all required
-                            input fields are filled in.
-                        </p>
-                    )}
-                    {succesful && <p>Question was sent succesfully!</p>}
+                    {/* {requestState.state === RequestState.Error && <p>{requestState.message}</p>}
+                    {requestState.state === RequestState.Successful && (
+                        <p>{requestState.message}</p>
+                    )} */}
                 </div>
             </Modal>
         </div>

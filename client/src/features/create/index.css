@@ -9,9 +9,10 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    margin-top: 2rem;
 }
 .form > div {
-    width: 30%;
+    width: 100%;
 }
 
 .input-field {
@@ -24,6 +25,21 @@
     padding: 3px;
     color: red;
     display: none;
+}
+
+.input-field > p{
+    color: black;
+}
+
+.input-field-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.input-field-row > .input-field {
+    width: 100%;
 }
 
 textarea:invalid ~ span {
@@ -69,6 +85,15 @@ select:invalid ~ span {
 }
 
 .close:hover {
-    background-color: aqua;
+    background-color: var(--red30);
     opacity: 0.7;
+}
+
+.question-submit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
