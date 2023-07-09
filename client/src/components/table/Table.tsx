@@ -3,7 +3,7 @@ import React from 'react';
 import { type ITable } from '../../models/ITable';
 import Treated from './Treated';
 import Button from '../ui/Button';
-import '../../features/create/index.css';
+import '../../features/create/components/index.css';
 import { RequestState } from '../../models/IRequest';
 import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQuestion';
 import { Answer } from '../../features/updateQuestion/Answer';

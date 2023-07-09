@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { RequestState, type IRequest } from '../../../models/IRequest';
 import axios, { type AxiosError } from 'axios';
-import { type questionForm } from '../Create';
+import { type questionForm } from '../components/Create';
 
+/**
+ * Returns a function to make a post request with all question data. Also
+ * returns the state {@code IRequest} of the API
+ */
 export default function useCreateQuestion(): {
     requestState: IRequest;
     createQuestion: (question: questionForm) => Promise<void>;

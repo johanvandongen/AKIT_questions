@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import QuestionForm from './QuestionForm';
 import './index.css';
-import Button from '../../components/ui/Button';
-import Spinner from '../../components/ui/spinner/Spinner';
-import useCreateQuestion from './hooks/useCreateQuestion';
-import { RequestState } from '../../models/IRequest';
+import Button from '../../../components/ui/Button';
+import Spinner from '../../../components/ui/spinner/Spinner';
+import useCreateQuestion from '../hooks/useCreateQuestion';
+import { RequestState } from '../../../models/IRequest';
 
 Modal.setAppElement('#root');
 
@@ -28,6 +28,12 @@ export interface questionForm {
 interface ICreateProps {
     refresh: () => void;
 }
+
+/**
+ * Create button that will open a modal when clicked.
+ * This modal will allow you to input data and send it to the API.
+ * @param refresh function to refetch all data from the API.
+ */
 export default function Create({ refresh }: ICreateProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const { requestState, createQuestion } = useCreateQuestion();
@@ -77,11 +83,6 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                         </button>
                     </div>
                     <QuestionForm onSubmit={createQuestion} requestState={requestState} />
-
-                    {/* {requestState.state === RequestState.Error && <p>{requestState.message}</p>}
-                    {requestState.state === RequestState.Successful && (
-                        <p>{requestState.message}</p>
-                    )} */}
                 </div>
             </Modal>
         </div>

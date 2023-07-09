@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -10,10 +9,16 @@ interface IImage {
     base64: string;
 }
 
+/**
+ * Input field for uploading images with image preview. Also shows error messages when file is too big or
+ * when too many files are being uploaded.
+ * @param addImages function to set the images in the object that gets sent to the API
+ */
 export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Element {
     const [postImage, setPostImage] = useState<IImage[]>([]);
     const [imageError, setImageError] = useState('');
 
+    /** Get file, check it, convert it and then set it in state, */
     const handleFileUpload = async (e: any): Promise<void> => {
         const file = e.target.files[0];
         console.log(file);
@@ -37,6 +42,7 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
         }
     };
 
+    /** Convert file to base64. */
     const convertToBase64 = async (file: any): Promise<string | ArrayBuffer | null> => {
         return await new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -50,6 +56,7 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
         });
     };
 
+    // After a new image has been added. Update the screenshot field in question object.
     useEffect(() => {
         addImages(postImage.map((image) => image.base64));
     }, [postImage]);
@@ -62,6 +69,8 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
                 </p>
                 <input
                     accept="image/*"
+                    name="multi-files"
+                    multiple
                     type="file"
                     onChange={(e) => {
                         void handleFileUpload(e);
