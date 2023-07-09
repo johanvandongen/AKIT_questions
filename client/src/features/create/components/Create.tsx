@@ -15,7 +15,7 @@ export interface questionForm {
     author: string;
     issue: string;
     exerciseIds: string[];
-    screenshot: string[];
+    screenshot: File[];
     chapter: string;
     treated: {
         state: string;

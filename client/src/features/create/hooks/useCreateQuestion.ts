@@ -16,14 +16,37 @@ export default function useCreateQuestion(): {
         message: '',
     });
 
+    /** Convert question object to FormData. */
+    const toFormData = (question: questionForm): FormData => {
+        const formData = new FormData();
+        formData.append('question', question.question);
+        formData.append('author', question.author);
+        formData.append('issue', question.issue);
+        for (const id of question.exerciseIds) {
+            formData.append('exerciseIds', id);
+        }
+        for (const imageFile of question.screenshot) {
+            formData.append('screenshot', imageFile);
+        }
+        formData.append('chapter', question.chapter);
+        formData.append('treated[state]', question.treated.state);
+        formData.append('treated[remark]', question.treated.remark);
+        formData.append('answer', question.answer);
+        formData.append('authorReply', question.authorReply);
+        return formData;
+    };
+
     const createQuestion = async (question: questionForm): Promise<void> => {
         console.log(question);
         setRequestState({ state: RequestState.Loading, message: '' });
 
+        // Need to convert it to formdata so that I can send images in screenshot field
+        const formData = toFormData(question);
+
         await axios
-            .post('http://localhost:5050/record', JSON.stringify(question), {
+            .post('http://localhost:5050/record', formData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             })
             .then((response) => {

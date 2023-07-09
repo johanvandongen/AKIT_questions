@@ -3,11 +3,38 @@ import db from '../db/conn.mjs';
 import { ObjectId } from 'mongodb';
 import { validationResult } from 'express-validator';
 import questionSchema from '../schema/questionSchema.mjs';
+import multer from 'multer';
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function(req, file, cb) {
+        console.log('fileee', file)
+        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(new Error('File type not supported'), false);
+    }
+}
+
+const upload = multer({storage: storage, limits: {fileSize: 1024 * 1024 * 2}, fileFilter: fileFilter})
 
 const router = express.Router();
 
 // Create new record
-router.post('/', questionSchema, async (req, res) => {
+router.post('/', upload.array('screenshot', 3), questionSchema, async (req, res) => {
+    console.log('file', req.files)
+
+    let images = [];
+    if (req.files !== undefined) {
+        images = req.files.map((file) => file.path)
+    }
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,8 +46,8 @@ router.post('/', questionSchema, async (req, res) => {
         question: req.body.question,
         date: new Date().toISOString(),
         issue: req.body.issue,
-        exerciseIds: req.body.exerciseIds,
-        screenshot: req.body.screenshot,
+        exerciseIds: req.body.exerciseIds === undefined ? [] : req.body.exerciseIds,
+        screenshot: images,
         chapter: req.body.chapter,
         treated : {
             state: req.body.treated.state,

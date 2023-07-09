@@ -121,7 +121,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                 </div>
 
                 <ImageUpload
-                    addImages={(images: string[]) => {
+                    addImages={(images: File[]) => {
                         setQuestion((prev) => ({ ...prev, screenshot: images }));
                     }}
                 />

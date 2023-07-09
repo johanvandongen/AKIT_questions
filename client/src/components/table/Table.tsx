@@ -20,7 +20,7 @@ interface ITableProps {
  * @param table table with information
  */
 export default function Table({ table, refresh }: ITableProps): JSX.Element {
-    console.log('Table rerendered', table);
+    // console.log('Table rerendered', table);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
 
     // If deletion was succesful, dont show the table anymore. Could also refetch all tables.

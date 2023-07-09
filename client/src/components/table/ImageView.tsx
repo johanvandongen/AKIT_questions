@@ -34,19 +34,24 @@ export default function ImageList({ images }: IImageListProps): JSX.Element {
                 </div>
             </Modal>
             <div className="image-list-container">
-                {images.map((image) => (
-                    <div
-                        key={image}
-                        className="image-container"
-                        onClick={() => {
-                            console.log('clicked', image[1000]);
-                            setCurrentImage(image);
-                            setModalIsOpen(true);
-                        }}
-                    >
-                        <img src={image} />
-                    </div>
-                ))}
+                {images.map((image) => {
+                    const imageUrl = 'http://localhost:5050/' + image;
+                    return (
+                        <div
+                            key={image}
+                            className="image-container"
+                            onClick={() => {
+                                console.log('clicked', image[1000]);
+                                setCurrentImage(imageUrl);
+                                setModalIsOpen(true);
+                            }}
+                        >
+                            <img src={imageUrl} alt={imageUrl} />
+                        </div>
+                        // <p>{imageUrl}</p>
+                    );
+                    // <p>{'localhost:5050/' + image}</p>
+                })}
             </div>
         </div>
     );
