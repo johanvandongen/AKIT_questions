@@ -97,3 +97,10 @@ select:invalid ~ span {
     bottom: 0;
     width: 100%;
 }
+
+.image-error {
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: inline-block;
+}

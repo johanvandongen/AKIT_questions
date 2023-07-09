@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { TableView } from '../components/table/TableView';
-import Create from '../features/create/Create';
 import { type ITable } from '../models/ITable';
 import { useState } from 'react';
 import axios from 'axios';
-import '../features/create/index.css';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/spinner/Spinner';
+import { Create } from '../features/create';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);

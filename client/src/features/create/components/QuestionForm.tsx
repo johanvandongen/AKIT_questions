@@ -2,8 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import './index.css';
 import { type questionForm } from './Create';
-import Button from '../../components/ui/Button';
-import { type IRequest, RequestState } from '../../models/IRequest';
+import Button from '../../../components/ui/Button';
+import { type IRequest, RequestState } from '../../../models/IRequest';
+import ImageUpload from './ImageUpload';
 
 enum authors {
     JAYIN = 'Jayin',
@@ -17,13 +18,18 @@ export interface IQuestionFormProps {
     requestState: IRequest;
 }
 
+/**
+ * Renders a form with file upload.
+ * @param onSubmit function that gets called with all form inputs.
+ * @param requestState the request state of the post function, so that the error can be displayed in this form.
+ */
 export default function QuestionForm({ onSubmit, requestState }: IQuestionFormProps): JSX.Element {
     const [question, setQuestion] = useState<questionForm>({
         question: '',
         author: '',
         issue: '',
         exerciseIds: [],
-        screenshot: '',
+        screenshot: [],
         chapter: '',
         treated: {
             state: 'No',
@@ -113,6 +119,12 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                     />
                     <span>Question should not be empty</span>
                 </div>
+
+                <ImageUpload
+                    addImages={(images: File[]) => {
+                        setQuestion((prev) => ({ ...prev, screenshot: images }));
+                    }}
+                />
             </form>
             <div className="question-submit">
                 {requestState.state === RequestState.Error && <p>{requestState.message}</p>}

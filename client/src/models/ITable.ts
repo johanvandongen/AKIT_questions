@@ -4,7 +4,7 @@ export interface ITable {
     date: string;
     issue: string;
     exerciseIds: string[];
-    screenshot: any;
+    screenshot: string[];
     question: string;
     chapter: string;
     treated: {
