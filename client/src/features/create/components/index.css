@@ -98,20 +98,6 @@ select:invalid ~ span {
     width: 100%;
 }
 
-.image-container {
-    width: 10rem;
-    height: 5rem;
-    border: 2px solid var(--red30);
-    border-radius: 0.3rem;
-    display: inline-block;
-}
-
-.image-container img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
 .image-error {
     font-size: 12px;
     padding: 3px;

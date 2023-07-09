@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import ImageList from '../../../components/imagelist/ImageList';
 
 export interface IImageUploadProps {
     addImages: (images: File[]) => void;
@@ -115,23 +116,13 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
                     }}
                 />
             </div>
-
-            <div className="image-list-container">
-                {imagesBase64.map((image) => {
-                    return (
-                        <div
-                            key={image}
-                            className="image-container"
-                            onClick={() => {
-                                setModalIsOpen(true);
-                                setCurrentImage(image);
-                            }}
-                        >
-                            <img src={image} />
-                        </div>
-                    );
-                })}
-            </div>
+            <ImageList
+                images={imagesBase64}
+                onClick={(image: string) => {
+                    setCurrentImage(image);
+                    setModalIsOpen(true);
+                }}
+            />
             <span className="image-error">{imageError}</span>
         </div>
     );
