@@ -4,13 +4,13 @@ import { ObjectId } from 'mongodb';
 import { validationResult } from 'express-validator';
 import questionSchema from '../schema/questionSchema.mjs';
 import multer from 'multer';
+import fs from 'fs';
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads');
     },
     filename: function(req, file, cb) {
-        console.log('fileee', file)
         cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname)
     }
 })
@@ -83,6 +83,19 @@ router.delete("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
   
     const collection = db.collection("Authoring_Questions");
+
+    let question = await collection.find(query).toArray();
+    const images = question[0].screenshot;
+    for (const image of images) {
+        console.log('Removed the following image: ', image)
+        fs.unlink(image, (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
+            }
+        })
+    }
+
     let result = await collection.deleteOne(query);
   
     res.send(result).status(200);
