@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 export interface IImageUploadProps {
     addImages: (images: File[]) => void;
 }
-
-// interface IImage {
-//     base64: string;
-// }
 
 /**
  * Input field for uploading images with image preview. Also shows error messages when file is too big or
@@ -18,17 +15,18 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
     const [postImage, setPostImage] = useState<File[]>([]);
     const [imagesBase64, setImagesBase64] = useState<string[]>([]);
     const [imageError, setImageError] = useState('');
+    const [randomKey, setRandomKey] = useState(''); // state used to force a react rerender (kinda hacky)
+    const [modelIsOpen, setModalIsOpen] = useState(false);
+    const [CurrentImage, setCurrentImage] = useState('');
 
     /** Get file, check it, convert it and then set it in state, */
     const handleFileUpload = async (e: any): Promise<void> => {
-        const file = e.target.files[0] as File;
+        const file: File = e.target.files[0] as File;
         console.log(file);
-        let base64 = await convertToBase64(file);
-        if (typeof base64 !== 'string') {
-            base64 = '';
-        }
-        const MB1 = 1000 * 1000;
-        if (file.size > MB1) {
+        const base64 = await convertToBase64(file);
+
+        const maxKbSize = 1024 * 1024;
+        if (file.size > maxKbSize) {
             setImageError('File too big');
             console.log('file too big');
             return;
@@ -67,36 +65,50 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
         });
     };
 
+    // Remove error message and rerender input by updating randomKey.
+    useEffect(() => {
+        if (imageError !== '') {
+            setTimeout(() => {
+                setImageError('');
+                setRandomKey(Math.random().toString());
+            }, 1500);
+        }
+    }, [imageError]);
+
     // After a new image has been added. Update the screenshot field in question object.
     useEffect(() => {
         addImages(postImage);
     }, [postImage]);
 
-    // const filesToBase64 = async (files: File[]): Promise<string[]> => {
-    //     const promises = files.map(async (image) => {
-    //         const im = await convertToBase64(image);
-    //         if (typeof im === 'string') {
-    //             return im;
-    //         }
-    //         return '';
-    //     });
-    //     return await Promise.all(promises);
-    // };
-
-    // useEffect(() => {
-    //     setImagesBase64(await filesToBase64(postImage));
-    // }, [postImage]);
-
     return (
         <div>
+            <Modal
+                isOpen={modelIsOpen}
+                onRequestClose={() => {
+                    setModalIsOpen(false);
+                }}
+                style={{
+                    content: {
+                        width: '50%',
+                        height: '20vh',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        borderRadius: '1rem',
+                    },
+                }}
+            >
+                <div className="image-in-modal">
+                    <img src={CurrentImage} />
+                </div>
+            </Modal>
+
             <div className="input-field">
-                <p>
-                    Input files <span className="image-error">{imageError}</span>
-                </p>
+                <p>Input files</p>
                 <input
+                    key={randomKey}
                     accept="image/*"
                     name="multi-files"
-                    multiple
                     type="file"
                     onChange={(e) => {
                         void handleFileUpload(e);
@@ -104,13 +116,23 @@ export default function ImageUpload({ addImages }: IImageUploadProps): JSX.Eleme
                 />
             </div>
 
-            {imagesBase64.map((image) => {
-                return (
-                    <div key={image} className="image-container">
-                        <img src={image} />
-                    </div>
-                );
-            })}
+            <div className="image-list-container">
+                {imagesBase64.map((image) => {
+                    return (
+                        <div
+                            key={image}
+                            className="image-container"
+                            onClick={() => {
+                                setModalIsOpen(true);
+                                setCurrentImage(image);
+                            }}
+                        >
+                            <img src={image} />
+                        </div>
+                    );
+                })}
+            </div>
+            <span className="image-error">{imageError}</span>
         </div>
     );
 }

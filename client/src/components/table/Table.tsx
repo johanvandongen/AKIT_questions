@@ -13,13 +13,14 @@ import ImageList from './ImageView';
 interface ITableProps {
     table: ITable;
     refresh: () => void;
+    setCurrentImage: (image: string) => void;
 }
 
 /**
  * Displays the table information in a nice view.
  * @param table table with information
  */
-export default function Table({ table, refresh }: ITableProps): JSX.Element {
+export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
     // console.log('Table rerendered', table);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
 
@@ -46,7 +47,7 @@ export default function Table({ table, refresh }: ITableProps): JSX.Element {
                     <span className="table-field">Question:</span>
                 </p>
                 <p>{table.question}</p>
-                <ImageList images={table.screenshot} />
+                <ImageList images={table.screenshot} setCurrentImage={setCurrentImage} />
             </div>
             <Answer table={table} refresh={refresh} />
             <div className="table-row">
