@@ -1,15 +1,16 @@
-.id-select-container {
+.dropdown-container {
     width: 100%;
 }
 
 .dropdown {
     position: relative;
     width: 100%;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .dropdown-content {
-    display: none;
+    display: block;
+    visibility: hidden;
     position: absolute;
     background-color: #f9f9f9;
     width: 100%;
@@ -18,35 +19,37 @@
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     overflow: hidden;
+    opacity: 1;
 }
 
 /** Show whole list of items on hover. */
 .dropdown:hover .dropdown-content {
-    display: block;
+    visibility: visible;
+    /* transition: width 0.5s ease-in; */
 }
 
 /** If whole list of items is shown, remove the bottom border of first item. */
-.dropdown:hover .id-item.first {
+.dropdown:hover .render-item.first {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
 /** Item styles. */
-.id-item {
+.render-item {
     list-style: none;
     border-bottom: 1px solid gray;
-    padding: 0.5rem;
+    padding: 0.3rem;
     background-color: white;
     width: 100%;;
     overflow: hidden;
 }
 
 /** Remove seperator border from last item. */
-.id-item:last-child {
+.render-item:last-child {
     border-bottom: none;
 }
 
 /** Make first element round. */
-.id-item.first {
+.render-item.first {
     border-radius: 0.5rem;
 }

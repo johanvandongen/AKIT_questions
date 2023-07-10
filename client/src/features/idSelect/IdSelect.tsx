@@ -16,7 +16,7 @@ const IdItem = (id: string): JSX.Element => {
             <span>{id}</span>
             <button
                 onClick={() => {
-                    console.log(id);
+                    void navigator.clipboard.writeText(id);
                 }}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
@@ -26,7 +26,7 @@ const IdItem = (id: string): JSX.Element => {
 
             <button
                 onClick={() => {
-                    console.log('open click with id:', id);
+                    window.open(`https://cms.staging.algebrakit.com/cms/id-search/${id}`);
                 }}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">

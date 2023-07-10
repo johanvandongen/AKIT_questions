@@ -46,7 +46,9 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
 
             <div className="table-row-horizontal">
                 <span className="table-field">Id:</span>
-                <IdSelect ids={table.exerciseIds} />
+                <div className="id-select-container">
+                    <IdSelect ids={table.exerciseIds} />
+                </div>
             </div>
 
             <div className="table-row">

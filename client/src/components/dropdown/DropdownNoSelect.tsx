@@ -17,12 +17,12 @@ export function DropdownNoSelect<T>({
     renderItem,
 }: IDropdownNoSelectProps<T>): JSX.Element {
     return (
-        <div className="id-select-container">
+        <div className="dropdown-container">
             <div className="dropdown">
                 <DropdownItem
                     item={itemList[0]}
                     renderItem={renderItem}
-                    className="id-item first"
+                    className="render-item first"
                 />
                 <div className="dropdown-content">
                     {itemList.slice(1, itemList.length).map((item) => (
@@ -41,7 +41,7 @@ export function DropdownNoSelect<T>({
 function DropdownItem<T>({
     renderItem,
     item,
-    className = 'id-item',
+    className = 'render-item',
 }: {
     renderItem: (item: T) => JSX.Element;
     item: T;
