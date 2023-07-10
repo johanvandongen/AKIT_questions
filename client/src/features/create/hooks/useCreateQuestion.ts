@@ -23,7 +23,7 @@ export default function useCreateQuestion(): {
         formData.append('author', question.author);
         formData.append('issue', question.issue);
         for (const id of question.exerciseIds) {
-            formData.append('exerciseIds', id);
+            formData.append('exerciseIds[]', id);
         }
         for (const imageFile of question.screenshot) {
             formData.append('screenshot', imageFile);

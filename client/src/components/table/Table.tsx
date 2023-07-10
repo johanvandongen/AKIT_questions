@@ -9,7 +9,7 @@ import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQues
 import { Answer } from '../../features/updateQuestion/Answer';
 import Spinner from '../ui/spinner/Spinner';
 import ImageList from '../imagelist/ImageList';
-// import ImageList from './ImageView';
+import IdSelect from '../../features/idSelect/IdSelect';
 
 interface ITableProps {
     table: ITable;
@@ -35,7 +35,7 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             {deleteState.state === RequestState.Loading && <Spinner />}
 
             <div className="table-header">
-                <p>{table.date}</p>
+                <p>{table.date.substring(0, 10)}</p>
                 <p>{table.issue}</p>
                 <Treated text={table.treated.state} id={table._id} />
             </div>
@@ -43,6 +43,11 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             <div className="table-row-horizontal">
                 <span className="table-field">Author: </span> {table.author}
             </div>
+
+            <div className="table-row-horizontal">
+                <IdSelect ids={table.exerciseIds} />
+            </div>
+
             <div className="table-row">
                 <p>
                     <span className="table-field">Question:</span>
@@ -58,14 +63,17 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                     }}
                 />
             </div>
-            <Answer table={table} refresh={refresh} />
-            <div className="table-row">
-                <Button
-                    onClick={async () => {
-                        void deleteQuestion(table._id);
-                    }}
-                    text={'Delete'}
-                />
+
+            <div className="table-footer">
+                <Answer table={table} refresh={refresh} />
+                <div className="table-row">
+                    <Button
+                        onClick={async () => {
+                            void deleteQuestion(table._id);
+                        }}
+                        text={'Delete'}
+                    />
+                </div>
             </div>
         </div>
     );

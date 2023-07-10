@@ -91,7 +91,7 @@ router.delete("/:id", async (req, res) => {
         fs.unlink(image, (err) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
+                // return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
             }
         })
     }
