@@ -1,30 +1,18 @@
 import * as React from 'react';
 import './IdSelect.css';
+import { DropdownNoSelect } from '../../components/dropdown/DropdownNoSelect';
 
 export interface IIdSelectProps {
     ids: string[];
 }
 
 export default function IdSelect({ ids }: IIdSelectProps): JSX.Element {
-    const idList = [...ids, 'wdadhakjdha'];
-    return (
-        <div className="id-select-container">
-            <span className="table-field">Id: </span>
-            <div className="dropdown">
-                <IdItem id={idList[0]} className="id-item first" />
-                <div className="dropdown-content">
-                    {idList.slice(1, idList.length).map((id) => (
-                        <IdItem key={id} id={id} />
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+    return <DropdownNoSelect itemList={ids} renderItem={IdItem} />;
 }
 
-const IdItem = ({ id, className = 'id-item' }: { id: string; className?: string }): JSX.Element => {
+const IdItem = (id: string): JSX.Element => {
     return (
-        <div className={className}>
+        <div className={'item-container'}>
             <span>{id}</span>
             <button
                 onClick={() => {

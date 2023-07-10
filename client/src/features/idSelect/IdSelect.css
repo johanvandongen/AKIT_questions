@@ -1,73 +1,18 @@
-.id-select-container {
-    width: 100%;
-}
-
-.dropdown {
-    position: relative;
-    width: 50%;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    width: 100%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-bottom-left-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    overflow: hidden;
-}
-
-/** Show whole list of items on hover. */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/** If whole list of items is shown, remove the bottom border of first item. */
-.dropdown:hover .id-item.first {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-/** Item styles. */
-.id-item {
-    list-style: none;
-    border-bottom: 1px solid gray;
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-right:  0.5rem;
-    background-color: white;
-    width: 100%;;
-    display: flex;
-    justify-content: flex-end;
-    overflow: hidden;
-}
-
-/** Remove seperator border from last item. */
-.id-item:last-child {
-    border-bottom: none;
-}
-
-/** Make first element round. */
-.id-item.first {
-    border-radius: 0.5rem;
-}
-
 /** Text color in item, */
-.dropdown .id-item {
+.item-container {
+    width: 100%;
     color: var(--black80);
+    display: flex;
+    justify-content: space-between;
 }
 
-.id-item span {
+.item-container span {
     margin-right: 0.2rem;
     overflow: hidden;
     margin-right: auto;
 }
 
-.id-item button {
+.item-container button {
 	background: none;
 	color: inherit;
 	border: none;
@@ -81,16 +26,15 @@
     padding: 0 0.2rem;
 }
 
-
 /**
 * Color svg
 */
-.id-item button svg {
+.item-container button svg {
     fill: var(--red30);
     font-size: 20px;
 }
 
-.id-item button svg:hover {
+.item-container button svg:hover {
     fill: var(--blue30);
 }
 
