@@ -42,7 +42,7 @@
     background-color: white;
     width: 100%;;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     overflow: hidden;
 }
 
@@ -64,6 +64,7 @@
 .id-item span {
     margin-right: 0.2rem;
     overflow: hidden;
+    margin-right: auto;
 }
 
 .id-item button {
@@ -77,6 +78,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 0.2rem;
 }
 
 
