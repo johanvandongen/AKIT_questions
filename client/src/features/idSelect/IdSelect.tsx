@@ -12,7 +12,7 @@ export default function IdSelect({ ids }: IIdSelectProps): JSX.Element {
         <div className="id-select-container">
             <span className="table-field">Id: </span>
             <div className="dropdown">
-                <IdItem id={idList[0]} />
+                <IdItem id={idList[0]} className="id-item first" />
                 <div className="dropdown-content">
                     {idList.slice(1, idList.length).map((id) => (
                         <IdItem key={id} id={id} />
@@ -23,9 +23,9 @@ export default function IdSelect({ ids }: IIdSelectProps): JSX.Element {
     );
 }
 
-const IdItem = ({ id }: { id: string }): JSX.Element => {
+const IdItem = ({ id, className = 'id-item' }: { id: string; className?: string }): JSX.Element => {
     return (
-        <div className="id-item">
+        <div className={className}>
             <span>{id}</span>
             <button
                 onClick={() => {

@@ -1,3 +1,7 @@
+.id-select-container {
+    width: 100%;
+}
+
 .dropdown {
     position: relative;
     width: 50%;
@@ -11,10 +15,18 @@
     width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.dropdown:hover .id-item.first {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .id-item {
@@ -29,6 +41,14 @@
     display: flex;
     justify-content: space-between;
     overflow: hidden;
+}
+
+.id-item:last-child {
+    border-bottom: none;
+}
+
+.id-item.first {
+    border-radius: 0.5rem;
 }
 
 .dropdown .id-item {
@@ -50,6 +70,3 @@
 	outline: inherit;
 }
 
-.id-select-container {
-    width: 100%;
-}
