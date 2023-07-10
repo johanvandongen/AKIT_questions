@@ -6,7 +6,6 @@ export interface IIdSelectProps {
 }
 
 export default function IdSelect({ ids }: IIdSelectProps): JSX.Element {
-    console.log('ids', ids);
     const idList = [...ids, 'wdadhakjdha'];
     return (
         <div className="id-select-container">

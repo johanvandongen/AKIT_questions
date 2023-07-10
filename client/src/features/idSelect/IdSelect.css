@@ -20,15 +20,18 @@
     overflow: hidden;
 }
 
+/** Show whole list of items on hover. */
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+/** If whole list of items is shown, remove the bottom border of first item. */
 .dropdown:hover .id-item.first {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
+/** Item styles. */
 .id-item {
     list-style: none;
     border-bottom: 1px solid gray;
@@ -43,14 +46,17 @@
     overflow: hidden;
 }
 
+/** Remove seperator border from last item. */
 .id-item:last-child {
     border-bottom: none;
 }
 
+/** Make first element round. */
 .id-item.first {
     border-radius: 0.5rem;
 }
 
+/** Text color in item, */
 .dropdown .id-item {
     color: var(--black80);
 }
@@ -68,5 +74,21 @@
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/**
+* Color svg
+*/
+.id-item button svg {
+    fill: var(--red30);
+    font-size: 20px;
+}
+
+.id-item button svg:hover {
+    fill: var(--blue30);
 }
 
