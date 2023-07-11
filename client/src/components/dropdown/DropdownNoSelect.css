@@ -32,6 +32,9 @@
 .dropdown:hover .render-item.first {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    transition-property: border-bottom-left-radius, border-bottom-right-radius;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
 }
 
 /** Item styles. */
@@ -51,5 +54,15 @@
 
 /** Make first element round. */
 .render-item.first {
+    border-radius: 0.5rem;
+}
+
+.render-single-item {
+    list-style: none;
+    border-bottom: 1px solid gray;
+    padding: 0.3rem;
+    background-color: white;
+    width: 100%;;
+    overflow: hidden;
     border-radius: 0.5rem;
 }

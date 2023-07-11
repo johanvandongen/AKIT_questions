@@ -16,14 +16,11 @@ export function DropdownNoSelect<T>({
     itemList,
     renderItem,
 }: IDropdownNoSelectProps<T>): JSX.Element {
+    const className = itemList.length > 1 ? 'render-item first' : 'render-single-item';
     return (
         <div className="dropdown-container">
             <div className="dropdown">
-                <DropdownItem
-                    item={itemList[0]}
-                    renderItem={renderItem}
-                    className="render-item first"
-                />
+                <DropdownItem item={itemList[0]} renderItem={renderItem} className={className} />
                 <div className="dropdown-content">
                     {itemList.slice(1, itemList.length).map((item) => (
                         <DropdownItem

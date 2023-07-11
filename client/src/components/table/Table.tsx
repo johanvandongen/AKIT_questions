@@ -44,12 +44,14 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                 <span className="table-field">Author: </span> {table.author}
             </div>
 
-            <div className="table-row-horizontal">
-                <span className="table-field">Id:</span>
-                <div className="id-select-container">
-                    <IdSelect ids={table.exerciseIds} />
+            {table.exerciseIds.length > 0 && (
+                <div className="table-row-horizontal">
+                    <span className="table-field">Id:</span>
+                    <div className="id-select-container">
+                        <IdSelect ids={table.exerciseIds} />
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className="table-row">
                 <p>
