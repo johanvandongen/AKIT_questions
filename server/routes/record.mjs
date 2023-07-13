@@ -102,7 +102,7 @@ router.delete("/:id", async (req, res) => {
   });
 
 // This section will help you update a record by id.
-router.patch("/:id", async (req, res) => {
+router.patch("/answer/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
     console.log(req.body);
     
@@ -112,6 +112,22 @@ router.patch("/:id", async (req, res) => {
         treated: {
             state: 'Yes'
         }
+      }
+    };
+  
+    let collection = await db.collection("Authoring_Questions");
+    let result = await collection.updateOne(query, updates);
+  
+    res.send(result).status(200);
+  });
+
+  router.patch("/reply/:id", async (req, res) => {
+    const query = { _id: new ObjectId(req.params.id) };
+    console.log(req.body);
+    
+    const updates =  {
+      $set: {
+        authorReply: req.body.answer,
       }
     };
   

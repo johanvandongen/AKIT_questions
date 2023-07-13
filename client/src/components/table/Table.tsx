@@ -70,7 +70,8 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             </div>
 
             <div className="table-footer">
-                <Answer table={table} refresh={refresh} />
+                <Answer table={table} refresh={refresh} type="finalAnswer" />
+                <Answer table={table} refresh={refresh} type="authorReply" />
                 <div className="table-row">
                     <Button
                         onClick={async () => {
