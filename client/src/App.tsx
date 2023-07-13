@@ -1,27 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './styling/App.css';
 import Login from './features/login/Login';
 import Home from './pages/Home';
+import { useAuth0 } from '@auth0/auth0-react';
+import Spinner from './components/ui/spinner/Spinner';
 
 function App(): JSX.Element {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    const signIn = (username: string, password: string): void => {
-        // TODO
-        setIsLoggedIn(true);
-    };
+    const { isAuthenticated, isLoading } = useAuth0();
 
     return (
         <div className="App" style={{ backgroundColor: 'white' }}>
-            {isLoggedIn ? (
-                <Home />
-            ) : (
-                <Login
-                    signIn={(username: string, password: string) => {
-                        signIn(username, password);
-                    }}
-                />
-            )}
+            {isLoading && <Spinner text={'Logging in'} opacity={0.9} />}
+            {isAuthenticated ? <Home /> : <Login />}
         </div>
     );
 }

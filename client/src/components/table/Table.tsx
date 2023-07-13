@@ -10,6 +10,8 @@ import { Answer } from '../../features/updateQuestion/Answer';
 import Spinner from '../ui/spinner/Spinner';
 import ImageList from '../imagelist/ImageList';
 import IdSelect from '../../features/idSelect/IdSelect';
+import { hasRole } from '../../features/login/userRole';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface ITableProps {
     table: ITable;
@@ -24,6 +26,7 @@ interface ITableProps {
 export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
     // console.log('Table rerendered', table);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
+    const { user } = useAuth0();
 
     // If deletion was succesful, dont show the table anymore. Could also refetch all tables.
     if (deleteState.state === RequestState.Successful) {
@@ -70,15 +73,18 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             </div>
 
             <div className="table-footer">
-                <Answer table={table} refresh={refresh} />
-                <div className="table-row">
-                    <Button
-                        onClick={async () => {
-                            void deleteQuestion(table._id);
-                        }}
-                        text={'Delete'}
-                    />
-                </div>
+                <Answer table={table} refresh={refresh} type="finalAnswer" />
+                <Answer table={table} refresh={refresh} type="authorReply" />
+                {hasRole(user, 'senior-author') && (
+                    <div className="table-row">
+                        <Button
+                            onClick={async () => {
+                                void deleteQuestion(table._id);
+                            }}
+                            text={'Delete'}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
