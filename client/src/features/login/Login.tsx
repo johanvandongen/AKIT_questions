@@ -7,7 +7,7 @@ export default function Login(): JSX.Element {
 
     return (
         <div className="login-container">
-            <h1>Welcom to the Algebrakit question platform</h1>
+            <h1>Welcome to the Algebrakit question platform</h1>
             <h3>Please login to continue</h3>
             <div className="button-container">
                 <Button

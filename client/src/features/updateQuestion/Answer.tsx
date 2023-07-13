@@ -77,7 +77,7 @@ const AnswerForm = ({
             <div className="input-field">
                 <textarea
                     value={answer}
-                    placeholder={'question'}
+                    placeholder={'Answer'}
                     required={true}
                     onChange={(e) => {
                         setAnswer(e.target.value);
