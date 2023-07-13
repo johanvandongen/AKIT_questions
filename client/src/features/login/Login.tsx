@@ -2,11 +2,7 @@ import * as React from 'react';
 import Button from '../../components/ui/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 
-interface ILoginProps {
-    signIn: (username: string, password: string) => void;
-}
-
-export default function Login({ signIn }: ILoginProps): JSX.Element {
+export default function Login(): JSX.Element {
     const { loginWithRedirect, logout } = useAuth0();
 
     return (

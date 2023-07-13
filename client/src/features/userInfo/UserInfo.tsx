@@ -1,21 +1,18 @@
 import * as React from 'react';
-import { UserContext } from './UserContext';
 import { useContext, useState } from 'react';
 import { Auth0Context } from '@auth0/auth0-react';
-import Modal from 'react-modal';
+import './index.css';
 
-// export interface IUserInfoProps {
-// }
+import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
 export default function UserInfo(): JSX.Element {
-    const { userRole } = useContext(UserContext);
     const { user } = useContext(Auth0Context);
     const [modelIsOpen, setModalIsOpen] = useState(false);
 
     return (
-        <div>
+        <div className="user-container">
             <Modal
                 isOpen={modelIsOpen}
                 closeTimeoutMS={200}
@@ -33,9 +30,15 @@ export default function UserInfo(): JSX.Element {
                     },
                 }}
             >
-                <div className="modal-content">{JSON.stringify(user)}</div>
+                <div className="modal-content">
+                    {user !== undefined &&
+                        Object.keys(user).map((key, i) => (
+                            <p key={i}>
+                                <b>{key}:</b> <i>{user[key]}</i>
+                            </p>
+                        ))}
+                </div>
             </Modal>
-            Me {userRole} {user?.email}
             <img
                 src={user?.picture}
                 onClick={() => {

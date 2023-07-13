@@ -1,0 +1,12 @@
+.user-container {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    margin-left: auto;
+}
+
+.user-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
