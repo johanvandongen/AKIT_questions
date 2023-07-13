@@ -17,7 +17,7 @@ root.render(
             clientId={clientId}
             authorizationParams={{
                 redirect_uri: window.location.origin,
-                audience: 'https://dev-x4v4gqecjffiwt5f.us.auth0.com/api/v2/',
+                audience: `https://${domain}/api/v2/`,
                 scope: 'read:current_user update:current_user_metadata profile',
             }}
         >
