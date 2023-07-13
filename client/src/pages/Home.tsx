@@ -6,6 +6,7 @@ import axios from 'axios';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/spinner/Spinner';
 import { Create } from '../features/create';
+import UserInfo from '../features/userInfo/UserInfo';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
@@ -54,6 +55,7 @@ export default function Home(): JSX.Element {
                     text={'Fetch'}
                     theme="orange"
                 />
+                <UserInfo />
             </div>
 
             {tables !== null && (
