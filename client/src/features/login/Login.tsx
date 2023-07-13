@@ -6,27 +6,32 @@ export default function Login(): JSX.Element {
     const { loginWithRedirect, logout } = useAuth0();
 
     return (
-        <div>
-            <Button
-                onClick={() => {
-                    try {
-                        void loginWithRedirect();
-                        console.log('ded');
-                    } catch (err) {
-                        console.log('too bad', err);
-                    }
-                    console.log('signinn');
-                }}
-                text={'Login'}
-            />
+        <div className="login-container">
+            <h1>Welcom to the Algebrakit question platform</h1>
+            <h3>Please login to continue</h3>
+            <div className="button-container">
+                <Button
+                    onClick={() => {
+                        try {
+                            void loginWithRedirect();
+                            console.log('ded');
+                        } catch (err) {
+                            console.log('too bad', err);
+                        }
+                        console.log('signinn');
+                    }}
+                    fullWidth={true}
+                    text={'Login'}
+                />
 
-            <button
-                onClick={() => {
-                    logout({ logoutParams: { returnTo: window.location.origin } });
-                }}
-            >
-                Log Out
-            </button>
+                <Button
+                    onClick={() => {
+                        logout({ logoutParams: { returnTo: window.location.origin } });
+                    }}
+                    fullWidth={true}
+                    text={'Log out'}
+                />
+            </div>
         </div>
     );
 }

@@ -4,11 +4,13 @@ import { Auth0Context } from '@auth0/auth0-react';
 import './index.css';
 
 import Modal from 'react-modal';
+import Button from '../../components/ui/Button';
+import { getUserRoles } from './userRole';
 
 Modal.setAppElement('#root');
 
 export default function UserInfo(): JSX.Element {
-    const { user } = useContext(Auth0Context);
+    const { user, logout } = useContext(Auth0Context);
     const [modelIsOpen, setModalIsOpen] = useState(false);
 
     return (
@@ -21,7 +23,7 @@ export default function UserInfo(): JSX.Element {
                 }}
                 style={{
                     content: {
-                        width: '50%',
+                        width: '30%',
                         height: '70vh',
                         top: '50%',
                         left: '50%',
@@ -31,12 +33,28 @@ export default function UserInfo(): JSX.Element {
                 }}
             >
                 <div className="modal-content">
-                    {user !== undefined &&
-                        Object.keys(user).map((key, i) => (
-                            <p key={i}>
-                                <b>{key}:</b> <i>{user[key]}</i>
-                            </p>
-                        ))}
+                    <div className="user-info">
+                        {user !== undefined && (
+                            <div>
+                                <p>Hello {user.nickname}</p>
+                                <p>
+                                    Your roles:{' '}
+                                    {getUserRoles(user).map((role) => (
+                                        <span className={'role'} key={role}>
+                                            {role}
+                                        </span>
+                                    ))}
+                                </p>
+                            </div>
+                        )}
+
+                        <Button
+                            onClick={() => {
+                                logout({ logoutParams: { returnTo: window.location.origin } });
+                            }}
+                            text={'Log Out'}
+                        />
+                    </div>
                 </div>
             </Modal>
             <img

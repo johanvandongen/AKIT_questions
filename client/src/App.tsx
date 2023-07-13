@@ -10,7 +10,7 @@ function App(): JSX.Element {
 
     return (
         <div className="App" style={{ backgroundColor: 'white' }}>
-            {isLoading && <Spinner />}
+            {isLoading && <Spinner text={'Logging in'} opacity={0.9} />}
             {isAuthenticated ? <Home /> : <Login />}
         </div>
     );

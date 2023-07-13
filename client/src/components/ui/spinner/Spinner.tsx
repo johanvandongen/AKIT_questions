@@ -1,13 +1,21 @@
 import * as React from 'react';
 import './spinner.css';
 
+interface ISpinnerProps {
+    text?: string;
+    opacity?: number;
+}
 /**
  * Shows a loading spinner centered in the closest parent div with position relative.
  */
-export default function Spinner(): JSX.Element {
+export default function Spinner({ text, opacity }: ISpinnerProps): JSX.Element {
     return (
-        <div className="spinner-container">
+        <div
+            style={{ backgroundColor: `rgba(255, 255, 255, ${opacity ?? 0})` }}
+            className="spinner-container"
+        >
             <div className="spinner"></div>
+            {text !== null && <p>{text}</p>}
         </div>
     );
 }

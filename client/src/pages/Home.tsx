@@ -6,9 +6,9 @@ import axios from 'axios';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/spinner/Spinner';
 import { Create } from '../features/create';
-import UserInfo from '../features/userInfo/UserInfo';
 import { hasRole } from '../features/login/userRole';
 import { useAuth0 } from '@auth0/auth0-react';
+import UserInfo from '../features/login/UserInfo';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
@@ -37,7 +37,7 @@ export default function Home(): JSX.Element {
 
     return (
         <div>
-            {isLoading && <Spinner />}
+            {isLoading && <Spinner text={'Fetching data'} />}
 
             <div className="home-header">
                 <h2>Home screen</h2>
