@@ -9,6 +9,10 @@ import { getUserRoles } from './userRole';
 
 Modal.setAppElement('#root');
 
+/**
+ * Displays the user picture icon. When clicked on this a modal opens up with
+ * additional user information.
+ */
 export default function UserInfo(): JSX.Element {
     const { user, logout } = useContext(Auth0Context);
     const [modelIsOpen, setModalIsOpen] = useState(false);

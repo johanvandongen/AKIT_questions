@@ -7,6 +7,8 @@ interface ISpinnerProps {
 }
 /**
  * Shows a loading spinner centered in the closest parent div with position relative.
+ * @param text optional text to display below the loading spinner
+ * @param opacity optional opacity for white background color. Default is 0.
  */
 export default function Spinner({ text, opacity }: ISpinnerProps): JSX.Element {
     return (
