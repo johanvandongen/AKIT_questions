@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ui.css';
+import '../ui.css';
 
 interface IButtonProps {
     onClick: any;

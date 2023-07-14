@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import ImageList from '../../../components/imagelist/ImageList';
+import { ImageList } from '../../../components/ui';
 
 export interface IImageUploadProps {
     addImages: (images: File[]) => void;

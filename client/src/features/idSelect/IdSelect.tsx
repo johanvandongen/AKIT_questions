@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './IdSelect.css';
-import { DropdownNoSelect } from '../../components/dropdown/DropdownNoSelect';
+import { DropdownNoSelect } from '../../components/ui';
 
 export interface IIdSelectProps {
     ids: string[];

@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import QuestionForm from './QuestionForm';
 import './index.css';
-import Button from '../../../components/ui/Button';
-import Spinner from '../../../components/ui/spinner/Spinner';
 import useCreateQuestion from '../hooks/useCreateQuestion';
 import { RequestState } from '../../../models/IRequest';
 import { type IAnswer } from '../../../models/ITable';
+import { Button, Spinner } from '../../../components/ui';
 
 Modal.setAppElement('#root');
 

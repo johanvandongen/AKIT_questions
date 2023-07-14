@@ -3,11 +3,11 @@ import { type IAnswer, type ITable } from '../../models/ITable';
 import { useEffect } from 'react';
 import { RequestState } from '../../models/IRequest';
 import useUpdateQuestion from './hooks/useUpdateQuestion';
-import Spinner from '../../components/ui/spinner/Spinner';
 import { useAuth0 } from '@auth0/auth0-react';
 import { hasRole } from '../login/userRole';
 import Answer from './components/Answer';
 import AnswerForm from './components/AnswerForm';
+import { Spinner } from '../../components/ui';
 
 const isAnswered = (answer: IAnswer[]): boolean => {
     return answer.length > 0;
