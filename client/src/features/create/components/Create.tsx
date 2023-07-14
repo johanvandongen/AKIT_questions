@@ -7,6 +7,7 @@ import Button from '../../../components/ui/Button';
 import Spinner from '../../../components/ui/spinner/Spinner';
 import useCreateQuestion from '../hooks/useCreateQuestion';
 import { RequestState } from '../../../models/IRequest';
+import { type IAnswer } from '../../../models/ITable';
 
 Modal.setAppElement('#root');
 
@@ -21,8 +22,8 @@ export interface questionForm {
         state: string;
         remark: string;
     };
-    answer: string;
-    authorReply: string;
+    answer: IAnswer[];
+    authorReply: IAnswer[];
 }
 
 interface ICreateProps {

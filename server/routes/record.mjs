@@ -53,8 +53,16 @@ router.post('/', upload.array('screenshot', 3), questionSchema, async (req, res)
             state: req.body.treated.state,
             remark: req.body.treated.remark
         },
-        answer: req.body.answer,
-        authorReply: req.body.authorReply,
+        answer: req.body.answer === undefined ? [] : req.body.answer.map((answer) => ({
+            date: new Date().toISOString(),
+            author: answer.author,
+            answer: answer.answer
+        })),
+        authorReply: req.body.authorReply === undefined ? [] : req.body.authorReply.map((answer) => ({
+            date: new Date().toISOString(),
+            author: answer.author,
+            answer: answer.answer
+        })),
     };
 
     console.log('router post new question: \n', newQuestion);
@@ -108,9 +116,15 @@ router.patch("/answer/:id", async (req, res) => {
     
     const updates =  {
       $set: {
-        answer: req.body.answer,
         treated: {
             state: 'Yes'
+        }
+      },
+      $push: {
+        answer: {
+            date: new Date().toISOString(),
+            author: req.body.author,
+            answer: req.body.answer
         }
       }
     };
@@ -126,9 +140,13 @@ router.patch("/answer/:id", async (req, res) => {
     console.log(req.body);
     
     const updates =  {
-      $set: {
-        authorReply: req.body.answer,
-      }
+        $push: {
+          authorReply: {
+              date: new Date().toISOString(),
+              author: req.body.author,
+              answer: req.body.answer
+          }
+        }
     };
   
     let collection = await db.collection("Authoring_Questions");

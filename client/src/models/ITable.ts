@@ -11,6 +11,12 @@ export interface ITable {
         state: string;
         remark: string;
     };
+    answer: IAnswer[];
+    authorReply: IAnswer[];
+}
+
+export interface IAnswer {
+    date: string;
+    author: string;
     answer: string;
-    authorReply: string;
 }

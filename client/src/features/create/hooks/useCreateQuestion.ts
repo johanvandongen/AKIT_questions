@@ -31,8 +31,13 @@ export default function useCreateQuestion(): {
         formData.append('chapter', question.chapter);
         formData.append('treated[state]', question.treated.state);
         formData.append('treated[remark]', question.treated.remark);
-        formData.append('answer', question.answer);
-        formData.append('authorReply', question.authorReply);
+
+        question.answer.forEach((answer, index) => {
+            formData.append(`answer[${index}][answer]`, answer.answer);
+        });
+        question.authorReply.forEach((answer, index) => {
+            formData.append(`authorReply[${index}][answer]`, answer.answer);
+        });
         return formData;
     };
 

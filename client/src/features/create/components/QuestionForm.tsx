@@ -35,8 +35,8 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
             state: 'No',
             remark: '',
         },
-        answer: '',
-        authorReply: '',
+        answer: [],
+        authorReply: [],
     });
 
     return (
