@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { type IAnswer, type ITable } from '../../models/ITable';
-import { useEffect, useState } from 'react';
-import Button from '../../components/ui/Button';
+import { useEffect } from 'react';
 import { RequestState } from '../../models/IRequest';
 import useUpdateQuestion from './hooks/useUpdateQuestion';
 import Spinner from '../../components/ui/spinner/Spinner';
 import { useAuth0 } from '@auth0/auth0-react';
 import { hasRole } from '../login/userRole';
+import Answer from './components/Answer';
+import AnswerForm from './components/AnswerForm';
 
 const isAnswered = (answer: IAnswer[]): boolean => {
     return answer.length > 0;
 };
 
-export interface IAnswerProps {
+export interface IAnswerSectionProps {
     table: ITable;
     refresh: () => void;
     type: 'finalAnswer' | 'authorReply';
@@ -25,7 +26,7 @@ export interface IAnswerProps {
  * @param refresh refresh function to refetch all tables
  * @param type the type of answer you want to render (answer from author vs answer from senior-author)
  */
-export function Answer({ table, refresh, type }: IAnswerProps): JSX.Element {
+export function AnswerSection({ table, refresh, type }: IAnswerSectionProps): JSX.Element {
     const { user } = useAuth0();
     const { requestState: updateState, updateQuestion } = useUpdateQuestion(type);
     const questionAnswer: IAnswer[] = type === 'finalAnswer' ? table.answer : table.authorReply;
@@ -58,7 +59,7 @@ export function Answer({ table, refresh, type }: IAnswerProps): JSX.Element {
                         </span>
                     </p>
                     {questionAnswer.map((answer) => (
-                        <div key={answer.answer}>{answer.answer}</div>
+                        <Answer key={answer.answer + answer.date} answer={answer} />
                     ))}
                 </div>
             )}
@@ -67,37 +68,3 @@ export function Answer({ table, refresh, type }: IAnswerProps): JSX.Element {
         </>
     );
 }
-
-const AnswerForm = ({
-    id,
-    updateQuestion,
-}: {
-    id: string;
-    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
-}): JSX.Element => {
-    const [answer, setAnswer] = useState('');
-    const { user } = useAuth0();
-
-    return (
-        <div className="table-row">
-            <div className="input-field">
-                <textarea
-                    value={answer}
-                    placeholder={'Answer'}
-                    required={true}
-                    onChange={(e) => {
-                        setAnswer(e.target.value);
-                    }}
-                />
-            </div>
-            {answer !== '' && (
-                <Button
-                    onClick={async () => {
-                        void updateQuestion(id, answer, user?.nickname);
-                    }}
-                    text={'Submit'}
-                />
-            )}
-        </div>
-    );
-};

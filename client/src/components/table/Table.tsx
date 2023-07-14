@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 import '../../features/create/components/index.css';
 import { RequestState } from '../../models/IRequest';
 import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQuestion';
-import { Answer } from '../../features/updateQuestion/Answer';
+import { AnswerSection } from '../../features/updateQuestion/AnswerSection';
 import Spinner from '../ui/spinner/Spinner';
 import ImageList from '../imagelist/ImageList';
 import IdSelect from '../../features/idSelect/IdSelect';
@@ -73,8 +73,8 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             </div>
 
             <div className="table-footer">
-                <Answer table={table} refresh={refresh} type="finalAnswer" />
-                <Answer table={table} refresh={refresh} type="authorReply" />
+                <AnswerSection table={table} refresh={refresh} type="finalAnswer" />
+                <AnswerSection table={table} refresh={refresh} type="authorReply" />
                 {hasRole(user, 'senior-author') && (
                     <div className="table-row">
                         <Button
