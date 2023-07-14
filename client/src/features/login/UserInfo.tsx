@@ -41,14 +41,7 @@ export default function UserInfo(): JSX.Element {
                         {user !== undefined && (
                             <div>
                                 <p>Hello {user.nickname}</p>
-                                <p>
-                                    Your roles:{' '}
-                                    {getUserRoles(user).map((role) => (
-                                        <span className={'role'} key={role}>
-                                            {role}
-                                        </span>
-                                    ))}
-                                </p>
+                                <p>Your roles: {getUserRoles(user).join(' / ')}</p>
                             </div>
                         )}
 
