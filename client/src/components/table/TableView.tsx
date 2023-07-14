@@ -7,19 +7,22 @@ import { useState } from 'react';
 
 export interface ITableViewProps {
     tables: ITable[];
+    columns: number;
     refresh: () => void;
 }
 Modal.setAppElement('#root');
 /**
  * Displays a grid of tables.
  * @param tables list of tables.
+ * @param columns the number of tables in a row
+ * @param refresh function to refetch all tables from database
  */
-export function TableView({ tables, refresh }: ITableViewProps): JSX.Element {
+export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const [CurrentImage, setCurrentImage] = useState('');
 
     return (
-        <div className="table-view">
+        <div className="table-view" style={{ gridTemplateColumns: '1fr '.repeat(columns) }}>
             <Modal
                 isOpen={modelIsOpen}
                 onRequestClose={() => {

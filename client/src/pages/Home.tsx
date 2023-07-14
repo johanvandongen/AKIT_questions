@@ -73,6 +73,7 @@ export default function Home(): JSX.Element {
             {activeTables !== null && (
                 <TableView
                     tables={activeTables}
+                    columns={3}
                     refresh={() => {
                         void fetchTables();
                     }}
