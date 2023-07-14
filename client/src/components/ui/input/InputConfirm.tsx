@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Button from './Button';
+import Button from '../button/Button';
 
 interface IInputConfirmProps {
     onClick: any;

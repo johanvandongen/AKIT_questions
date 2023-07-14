@@ -3,12 +3,11 @@ import { TableView } from '../components/table/TableView';
 import { type ITable } from '../models/ITable';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Button from '../components/ui/Button';
-import Spinner from '../components/ui/spinner/Spinner';
 import { Create } from '../features/create';
 import UserInfo from '../features/login/UserInfo';
 import Filter from '../features/filter/Filter';
 import UserSettings from '../features/filter/UserSettings';
+import { Button, Spinner } from '../components/ui';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);

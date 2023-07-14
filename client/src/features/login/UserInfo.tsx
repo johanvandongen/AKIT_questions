@@ -4,8 +4,8 @@ import { Auth0Context } from '@auth0/auth0-react';
 import './index.css';
 
 import Modal from 'react-modal';
-import Button from '../../components/ui/Button';
 import { getUserRoles } from './userRole';
+import { Button } from '../../components/ui';
 
 Modal.setAppElement('#root');
 

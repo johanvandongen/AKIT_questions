@@ -3,7 +3,7 @@ import './styling/App.css';
 import Login from './features/login/Login';
 import Home from './pages/Home';
 import { useAuth0 } from '@auth0/auth0-react';
-import Spinner from './components/ui/spinner/Spinner';
+import { Spinner } from './components/ui';
 
 function App(): JSX.Element {
     const { isAuthenticated, isLoading } = useAuth0();

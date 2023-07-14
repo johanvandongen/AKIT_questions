@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import './index.css';
 import { type questionForm } from './Create';
-import Button from '../../../components/ui/Button';
 import { type IRequest, RequestState } from '../../../models/IRequest';
 import ImageUpload from './ImageUpload';
+import { Button } from '../../../components/ui';
 
 enum authors {
     JAYIN = 'Jayin',
@@ -35,8 +35,8 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
             state: 'No',
             remark: '',
         },
-        answer: '',
-        authorReply: '',
+        answer: [],
+        authorReply: [],
     });
 
     return (
