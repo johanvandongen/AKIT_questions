@@ -8,10 +8,12 @@ import Spinner from '../components/ui/spinner/Spinner';
 import { Create } from '../features/create';
 import UserInfo from '../features/login/UserInfo';
 import Filter from '../features/filter/Filter';
+import UserSettings from '../features/filter/UserSettings';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
     const [activeTables, setActiveTables] = useState<ITable[] | null>(tables);
+    const [columns, setColumns] = useState(3);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchTables = async (): Promise<void> => {
@@ -62,6 +64,12 @@ export default function Home(): JSX.Element {
             </div>
 
             <div className="settings">
+                <UserSettings
+                    columns={columns}
+                    setColumns={(columns: number) => {
+                        setColumns(columns);
+                    }}
+                />
                 <Filter
                     tables={tables === null ? [] : tables}
                     setActiveTables={(tables: ITable[]) => {
@@ -73,7 +81,7 @@ export default function Home(): JSX.Element {
             {activeTables !== null && (
                 <TableView
                     tables={activeTables}
-                    columns={3}
+                    columns={columns}
                     refresh={() => {
                         void fetchTables();
                     }}
