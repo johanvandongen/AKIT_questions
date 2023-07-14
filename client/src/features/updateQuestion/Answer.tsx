@@ -84,12 +84,14 @@ const AnswerForm = ({
                     }}
                 />
             </div>
-            <Button
-                onClick={async () => {
-                    void updateQuestion(id, answer);
-                }}
-                text={'Submit'}
-            />
+            {answer !== '' && (
+                <Button
+                    onClick={async () => {
+                        void updateQuestion(id, answer);
+                    }}
+                    text={'Submit'}
+                />
+            )}
         </div>
     );
 };

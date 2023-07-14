@@ -102,6 +102,11 @@ body {
   gap: 1rem;
 }
 
+.home-header h1 {
+  color: white;
+  font-weight: bold;
+}
+
 .ReactModal__Overlay {
   opacity: 0;
   transition: opacity 200ms ease-in-out;

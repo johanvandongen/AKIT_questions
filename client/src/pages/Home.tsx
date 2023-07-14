@@ -35,7 +35,7 @@ export default function Home(): JSX.Element {
             {isLoading && <Spinner text={'Fetching data'} />}
 
             <div className="home-header">
-                <h2>Home screen</h2>
+                <h1>Home screen</h1>
                 <Create
                     refresh={() => {
                         void fetchTables();
