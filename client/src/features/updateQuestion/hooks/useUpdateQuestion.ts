@@ -8,7 +8,7 @@ import axios from 'axios';
  */
 export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): {
     requestState: IRequest;
-    updateQuestion: (id: string, answer: string) => Promise<void>;
+    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
 } {
     const [requestState, setRequestState] = useState<IRequest>({
         state: RequestState.Idle,
@@ -16,13 +16,17 @@ export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): 
     });
 
     /** Updates the answers for a given question. */
-    const updateQuestion = async (id: string, answer: string): Promise<void> => {
+    const updateQuestion = async (
+        id: string,
+        answer: string,
+        author: string | undefined
+    ): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
         const query = `http://localhost:5050/record/${
             type === 'finalAnswer' ? 'answer' : 'reply'
         }/${id}`;
         await axios
-            .patch(query, JSON.stringify({ answer }), {
+            .patch(query, JSON.stringify({ answer, author }), {
                 headers: {
                     'Content-Type': 'application/json',
                 },

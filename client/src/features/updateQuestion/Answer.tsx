@@ -73,9 +73,10 @@ const AnswerForm = ({
     updateQuestion,
 }: {
     id: string;
-    updateQuestion: (id: string, answer: string) => Promise<void>;
+    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
 }): JSX.Element => {
     const [answer, setAnswer] = useState('');
+    const { user } = useAuth0();
 
     return (
         <div className="table-row">
@@ -92,7 +93,7 @@ const AnswerForm = ({
             {answer !== '' && (
                 <Button
                     onClick={async () => {
-                        void updateQuestion(id, answer);
+                        void updateQuestion(id, answer, user?.nickname);
                     }}
                     text={'Submit'}
                 />
