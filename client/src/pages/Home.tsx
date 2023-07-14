@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { TableView } from '../components/table/TableView';
 import { type ITable } from '../models/ITable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from '../components/ui/Button';
 import Spinner from '../components/ui/spinner/Spinner';
 import { Create } from '../features/create';
 import UserInfo from '../features/login/UserInfo';
+import Filter from '../features/filter/Filter';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
+    const [activeTables, setActiveTables] = useState<ITable[] | null>(tables);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchTables = async (): Promise<void> => {
@@ -29,6 +31,14 @@ export default function Home(): JSX.Element {
                 setIsLoading(false);
             });
     };
+
+    useEffect(() => {
+        void fetchTables();
+    }, []);
+
+    useEffect(() => {
+        setActiveTables(tables);
+    }, [tables]);
 
     return (
         <div>
@@ -51,9 +61,18 @@ export default function Home(): JSX.Element {
                 <UserInfo />
             </div>
 
-            {tables !== null && (
+            <div className="settings">
+                <Filter
+                    tables={tables === null ? [] : tables}
+                    setActiveTables={(tables: ITable[]) => {
+                        setActiveTables(tables);
+                    }}
+                />
+            </div>
+
+            {activeTables !== null && (
                 <TableView
-                    tables={tables}
+                    tables={activeTables}
                     refresh={() => {
                         void fetchTables();
                     }}

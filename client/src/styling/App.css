@@ -5,6 +5,7 @@
   --blue-gray: #30475e;
   --orange: #f8920cff;
   --blue30: #21abd4;
+  --padding-sides: 5rem;
 }
 * {
   padding: 0;
@@ -46,7 +47,8 @@ body {
   justify-content: space-between;
   padding: 1rem 5rem;
   color: var(--gray10);
-  align-items: flex-end;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .settings .left-section {
@@ -73,24 +75,6 @@ body {
   width: 30%;
 }
 
-.search {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.search-row {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 1rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--black80);
-}
-
-.search-row p{
-  padding-right: 1rem;
-}
-
 .home-header {
   display: flex;
   flex-direction: row;
@@ -98,7 +82,7 @@ body {
   align-items: center;
   background-color: #0a6badff;
   padding: 3rem 5rem; 
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
   gap: 1rem;
 }
 

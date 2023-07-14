@@ -1,5 +1,4 @@
 import { type ITable } from '../../../models/ITable';
-import isAnswered from '../../../utils/utils';
 
 export enum treatedOptions {
     yes = 'Yes',
@@ -11,19 +10,13 @@ export enum treatedOptions {
 /**
  * Returns whether the given table a treated status of {@code answer}.
  * @param table table
- * @param answer which treated state yoy want to filter on.
+ * @param treated which treated state yoy want to filter on.
  */
-export const answeredSearch = (table: ITable, answer: treatedOptions): boolean => {
-    if (answer === treatedOptions.all) {
+export const answeredSearch = (table: ITable, treated: treatedOptions): boolean => {
+    if (treated === treatedOptions.all) {
         return true;
-    } else if (answer === treatedOptions.yes) {
-        return isAnswered(table.treated.state);
-    } else if (answer === treatedOptions.no) {
-        return table.treated.state.trim() === '';
-    } else if (answer === treatedOptions.pending) {
-        return !isAnswered(table.treated.state) && table.treated.state.trim() !== '';
     }
-    return false;
+    return table.treated.state === treatedOptions[treated as keyof typeof treatedOptions];
 };
 
 /**

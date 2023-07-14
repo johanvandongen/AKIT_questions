@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { type ITable } from '../../models/ITable';
 import { answeredSearch, generalSearch, treatedOptions } from './utils/filterTable';
+import './styles.css';
 
 interface IInputConfirmProps {
     tables: ITable[];
@@ -36,20 +37,22 @@ export default function Filter({ tables, setActiveTables }: IInputConfirmProps):
                     }}
                 />
             </div>
-            <select
-                name="answered"
-                defaultValue={treated}
-                onChange={(e) => {
-                    console.log(e.target.value);
-                    setIsTreated(e.target.value as treatedOptions);
-                }}
-            >
-                {Object.keys(treatedOptions).map((key) => (
-                    <option key={key} value={key}>
-                        {treatedOptions[key as keyof typeof treatedOptions]}
-                    </option>
-                ))}
-            </select>
+            <div className="search-row">
+                <p>Treated</p>
+                <select
+                    name="answered"
+                    defaultValue={treated}
+                    onChange={(e) => {
+                        setIsTreated(e.target.value as treatedOptions);
+                    }}
+                >
+                    {Object.keys(treatedOptions).map((key) => (
+                        <option key={key} value={key}>
+                            {treatedOptions[key as keyof typeof treatedOptions]}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     );
 }
