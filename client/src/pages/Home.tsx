@@ -37,7 +37,7 @@ export default function Home(): JSX.Element {
     const exportTables = async (): Promise<void> => {
         setIsLoading(true);
         await axios
-            .get('http://localhost:5050/data', {})
+            .get('http://localhost:5050/data/unified', {})
             .then((response) => {
                 setIsLoading(false);
                 console.log('export response', response);
