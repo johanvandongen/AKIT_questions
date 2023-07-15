@@ -57,6 +57,7 @@ router.get('/unified', questionSchema, async (req, res) => {
     })
 })
 
+/** Export the databae in multiple csv's in a relational database format to avoid array values for certain fields. */
 router.get('/split', questionSchema, async (req, res) => {
     let collection = await db.collection('Authoring_Questions');
     let result = await collection.find({}).toArray();
@@ -71,75 +72,18 @@ router.get('/split', questionSchema, async (req, res) => {
     })
 
     let csvQuestions;
-    const csvQuestionsFields = [{label: 'id', value: '_id'}, 'author','question', 'date', 'issue', 'chapter', 'treated.state', 'treated.remark'];
-    try {
-        console.log('start parseing')
-        console.log(csvQuestionsFields)
-        csvQuestions = json2csv.parse(result, {fields: csvQuestionsFields});
-    } catch (err) {
-        return res.status(500).json({err});
-    }
-
     let csvExerciseIds;
-    const csvExerciseIdsFields = [ 'id', 'exercideId'];
-    const exerciseIdsTable = result.map((question) => (question.exerciseIds.map((exId) => ({'id': question._id, 'exerciseId': exId}))))
-    console.log('idTable', exerciseIdsTable)
-    try {
-        console.log('start parseing')
-        csvExerciseIds = json2csv.parse(exerciseIdsTable, {fields: csvExerciseIdsFields});
-    } catch (err) {
-        return res.status(500).json({err});
-    }
-
     let csvAnswers;
-    const csvAnswersFields = [ 'id', 'answer', 'author', 'date'];
-    const answersTable = result.flatMap((question) => (question.answer.map((answer) => (
-        {'id': question._id, 
-        'answer': answer.answer,
-        'author': answer.author,
-        'date': answer.date,
-    })
-        )))
-
-    console.log('answertable', answersTable)
-    try {
-        console.log('start parseing')
-        csvAnswers = json2csv.parse(answersTable, {fields: csvAnswersFields});
-    } catch (err) {
-        return res.status(500).json({err});
-    }
-
     let csvAuthorReply;
-    const csvAuthorReplyFields = [ 'id', 'answer', 'author', 'date'];
-    const authorReplyTable = result.flatMap((question) => (question.authorReply.map((answer) => (
-        {'id': question._id, 
-        'answer': answer.answer,
-        'author': answer.author,
-        'date': answer.date,
-    })
-        )))
-
-    console.log('answertable', authorReplyTable)
-    try {
-        console.log('start parseing')
-        csvAuthorReply = json2csv.parse(authorReplyTable, {fields: csvAuthorReplyFields});
-    } catch (err) {
-        return res.status(500).json({err});
-    }
-
     let csvImages;
-    const csvImagesFields = [ 'id', 'imageUrl'];
-    const imagesTable = result.flatMap((question) => (question.screenshot.map((ss) => (
-        {'id': question._id, 
-        'imageUrl': ss,
-    })
-        )))
-
-    console.log('answertable', imagesTable)
     try {
-        console.log('start parseing')
-        csvImages = json2csv.parse(imagesTable, {fields: csvImagesFields});
+        csvQuestions = createQuestionsCSV(result)
+        csvExerciseIds = createExerciseIdsCSV(result)
+        csvAnswers = createAnswersCSV(result);
+        csvAuthorReply = createAuthorReplyCSV(result);
+        csvImages = createImagesCSV(result);
     } catch (err) {
+        console.log(err)
         return res.status(500).json({err});
     }
 
@@ -153,14 +97,15 @@ router.get('/split', questionSchema, async (req, res) => {
 
     Promise.all(promises).then((result) => {
         console.log('results', result)
-        res.attachment('AKIT_zip2.zip')
+        res.attachment('AKIT_zip.zip')
         archive.pipe(res)
 
         for(const i in result) {
             archive.file(result[i], { name: path.basename(result[i]) });
-            }
+        }
 
         archive.finalize()
+
     }).catch((err) => {
         return res.json(err).status(500);
     })
@@ -176,6 +121,61 @@ const createCSV = (filePath, csv) => {
             }
         })
     })
+}
+
+const createQuestionsCSV = (data) => {
+    const fields = [{label: 'id', value: '_id'}, 'author','question', 'date', 'issue', 'chapter', 'treated.state', 'treated.remark'];
+    return json2csv.parse(data, {fields}); 
+}
+
+const createExerciseIdsCSV = (data) => {
+    const fields = [ 'id', 'exerciseId'];
+    const exerciseIdsTable = data.flatMap((question) => (question.exerciseIds.map((exId) => (
+        {'id': question._id, 
+        'exerciseId': exId}
+        ))))
+    console.log('idTable', exerciseIdsTable)
+    return json2csv.parse(exerciseIdsTable, {fields});
+}
+
+const createAnswersCSV = (data) => {
+    const fields = [ 'id', 'answer', 'author', 'date'];
+    const answersTable = data.flatMap((question) => (question.answer.map((answer) => (
+        {'id': question._id, 
+        'answer': answer.answer,
+        'author': answer.author,
+        'date': answer.date,
+    })
+        )))
+
+    console.log('answertable', answersTable)
+    return json2csv.parse(answersTable, {fields});
+}
+
+const createAuthorReplyCSV = (data) => {
+    const fields = [ 'id', 'answer', 'author', 'date'];
+    const authorReplyTable = data.flatMap((question) => (question.authorReply.map((answer) => (
+        {'id': question._id, 
+        'answer': answer.answer,
+        'author': answer.author,
+        'date': answer.date,
+    })
+        )))
+
+    console.log('answertable', authorReplyTable)
+    return json2csv.parse(authorReplyTable, {fields});
+}
+
+const createImagesCSV = (data) => {
+    const fields = [ 'id', 'imageUrl'];
+    const imagesTable = data.flatMap((question) => (question.screenshot.map((ss) => (
+        {'id': question._id, 
+        'imageUrl': ss,
+    })
+        )))
+
+    console.log('imageTable', imagesTable)
+    return json2csv.parse(imagesTable, {fields});
 }
   
 
