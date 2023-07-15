@@ -78,6 +78,7 @@ export default function Home(): JSX.Element {
                     text={'Fetch'}
                     theme="orange"
                 />
+                <a href="http://localhost:5050/data/split">export split</a>
                 <Button
                     onClick={() => {
                         void exportTables();
