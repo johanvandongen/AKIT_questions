@@ -8,7 +8,6 @@ import UserInfo from '../features/login/UserInfo';
 import Filter from '../features/filter/Filter';
 import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
-import FileDownload from 'js-file-download';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
@@ -24,24 +23,6 @@ export default function Home(): JSX.Element {
                 setIsLoading(false);
                 console.log('no errorr', response);
                 setTables(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                setIsLoading(false);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
-
-    const exportTables = async (): Promise<void> => {
-        setIsLoading(true);
-        await axios
-            .get('http://localhost:5050/data/unified', {})
-            .then((response) => {
-                setIsLoading(false);
-                console.log('export response', response);
-                FileDownload(response.data, 'akit_questions.csv');
             })
             .catch((error) => {
                 console.log(error);
@@ -77,13 +58,6 @@ export default function Home(): JSX.Element {
                     }}
                     text={'Fetch'}
                     theme="orange"
-                />
-                <a href="http://localhost:5050/data/split">export split</a>
-                <Button
-                    onClick={() => {
-                        void exportTables();
-                    }}
-                    text={'Export'}
                 />
                 <UserInfo />
             </div>

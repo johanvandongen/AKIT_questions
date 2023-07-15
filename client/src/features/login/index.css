@@ -41,3 +41,12 @@
 .role {
     margin-right: 0.5rem;
 }
+
+.export-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.export-links ul{
+    padding-left: 1.5rem;
+}
