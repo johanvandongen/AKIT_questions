@@ -104,8 +104,18 @@ router.get('/split', questionSchema, async (req, res) => {
             archive.file(result[i], { name: path.basename(result[i]) });
         }
 
-        archive.finalize()
-
+        archive.finalize().then((response) => {
+            console.log('archive finalize response', response)
+            // Delete this files after download
+            for(const i in result) {
+                fs.unlink(result[i], function (err) { 
+                    if (err) {
+                        console.error(err);
+                    }
+                    console.log(`File ${result[i]} has been Deleted`);
+                });
+            }
+        })    
     }).catch((err) => {
         return res.json(err).status(500);
     })
