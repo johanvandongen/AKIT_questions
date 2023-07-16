@@ -18,4 +18,4 @@ axios.interceptors.request.use(function (config) {
     return config;
 });
 
-export { axiosInstance, updateToken };
+export { axiosInstance, token, updateToken };

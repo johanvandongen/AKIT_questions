@@ -4,12 +4,10 @@ import { type ITable } from '../models/ITable';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Create } from '../features/create';
-import UserInfo from '../features/login/UserInfo';
+import UserInfo from '../features/userInfo/UserInfo';
 import Filter from '../features/filter/Filter';
 import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
-import { useAuth0 } from '@auth0/auth0-react';
-import { axiosInstance } from '../utils/axiosInstance';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);

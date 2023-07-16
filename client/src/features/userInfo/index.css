@@ -1,0 +1,52 @@
+/**
+* User details
+*/
+.user-container {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    margin-left: auto;
+}
+
+.user-modal-content {
+    position: relative;
+    height: 100%;
+}
+
+.logout-button {
+    margin-top: auto;
+    width: 100%;
+}
+
+.user-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    height: 100%;
+}
+
+.role {
+    margin-right: 0.5rem;
+}
+
+.export-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.export-links ul{
+    padding-left: 1.5rem;
+}
+
+.export-buttons-container {
+    display: flex;
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+}
