@@ -8,14 +8,19 @@ import UserInfo from '../features/login/UserInfo';
 import Filter from '../features/filter/Filter';
 import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
+import { useAuth0 } from '@auth0/auth0-react';
+import { axiosInstance } from '../utils/axiosInstance';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
     const [activeTables, setActiveTables] = useState<ITable[] | null>(tables);
     const [columns, setColumns] = useState(3);
     const [isLoading, setIsLoading] = useState(false);
+    // const { getAccessTokenSilently } = useAuth0();
 
     const fetchTables = async (): Promise<void> => {
+        // const token = await getAccessTokenSilently();
+        // console.log('token', token);
         setIsLoading(true);
         await axios
             .get('http://localhost:5050/record', {})
