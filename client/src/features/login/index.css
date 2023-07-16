@@ -15,38 +15,3 @@
     flex-direction: column;
     gap: 1rem;
 }
-
-/**
-* User details
-*/
-.user-container {
-    width: 64px;
-    height: 64px;
-    overflow: hidden;
-    margin-left: auto;
-}
-
-.user-container img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.role {
-    margin-right: 0.5rem;
-}
-
-.export-links {
-    display: flex;
-    flex-direction: column;
-}
-
-.export-links ul{
-    padding-left: 1.5rem;
-}

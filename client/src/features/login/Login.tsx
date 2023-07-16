@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '../../components/ui';
+import './index.css';
 
 export default function Login(): JSX.Element {
     const { loginWithRedirect, logout } = useAuth0();

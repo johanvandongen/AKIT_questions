@@ -13,6 +13,8 @@ import IdSelect from '../../features/idSelect/IdSelect';
 import { hasRole } from '../../features/login/userRole';
 import { useAuth0 } from '@auth0/auth0-react';
 
+const baseURL = process.env.REACT_APP_API_URL ?? '';
+
 interface ITableProps {
     table: ITable;
     refresh: () => void;
@@ -63,9 +65,7 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                 <p>{table.question}</p>
 
                 <ImageList
-                    images={table.screenshot.map(
-                        (image) => 'http://localhost:5050/' + String(image)
-                    )}
+                    images={table.screenshot.map((image) => baseURL + String(image))}
                     onClick={(image: string) => {
                         setCurrentImage(image);
                     }}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RequestState, type IRequest } from '../../../models/IRequest';
-import axios from 'axios';
+import { axiosInstance } from '../../../utils/axiosInstance';
 
 /**
  * @param type the type of answer (answer from a normal author vs senior author)
@@ -22,10 +22,8 @@ export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): 
         author: string | undefined
     ): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
-        const query = `http://localhost:5050/record/${
-            type === 'finalAnswer' ? 'answer' : 'reply'
-        }/${id}`;
-        await axios
+        const query = `/record/${type === 'finalAnswer' ? 'answer' : 'reply'}/${id}`;
+        await axiosInstance
             .patch(query, JSON.stringify({ answer, author }), {
                 headers: {
                     'Content-Type': 'application/json',

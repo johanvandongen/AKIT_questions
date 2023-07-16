@@ -2,10 +2,12 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Auth0Context } from '@auth0/auth0-react';
 import './index.css';
-
 import Modal from 'react-modal';
-import { getUserRoles, hasRole } from './userRole';
-import { Button } from '../../components/ui';
+import { getUserRoles, hasRole } from '../login/userRole';
+import { Button, Spinner } from '../../components/ui';
+import { RequestState } from '../../models/IRequest';
+import useExportSplit from './hooks/useExportSplit';
+import useExportUnified from './hooks/useExportUnified';
 
 Modal.setAppElement('#root');
 
@@ -16,6 +18,9 @@ Modal.setAppElement('#root');
 export default function UserInfo(): JSX.Element {
     const { user, logout } = useContext(Auth0Context);
     const [modelIsOpen, setModalIsOpen] = useState(false);
+
+    const { requestState: splitState, exportSplit } = useExportSplit();
+    const { requestState: unifiedState, exportUnified } = useExportUnified();
 
     return (
         <div className="user-container">
@@ -36,7 +41,11 @@ export default function UserInfo(): JSX.Element {
                     },
                 }}
             >
-                <div className="modal-content">
+                <div className="user-modal-content">
+                    {(splitState.state === RequestState.Loading ||
+                        unifiedState.state === RequestState.Loading) && (
+                        <Spinner text={'Exporting...'} />
+                    )}
                     <div className="user-info">
                         {user !== undefined && (
                             <div>
@@ -48,27 +57,32 @@ export default function UserInfo(): JSX.Element {
                         {hasRole(user, 'senior-author') && (
                             <div className="export-links">
                                 <p>Export database to csv files:</p>
-                                <ul>
-                                    <li>
-                                        <a href="http://localhost:5050/data/unified">
-                                            Export unified
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="http://localhost:5050/data/split">
-                                            Export split (zip)
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div className="export-buttons-container">
+                                    <Button
+                                        onClick={() => {
+                                            void exportUnified();
+                                        }}
+                                        text={'Export unified'}
+                                    />
+                                    <Button
+                                        onClick={() => {
+                                            void exportSplit();
+                                        }}
+                                        text={'Export split'}
+                                    />
+                                </div>
                             </div>
                         )}
 
-                        <Button
-                            onClick={() => {
-                                logout({ logoutParams: { returnTo: window.location.origin } });
-                            }}
-                            text={'Log Out'}
-                        />
+                        <div className="logout-button">
+                            <Button
+                                onClick={() => {
+                                    logout({ logoutParams: { returnTo: window.location.origin } });
+                                }}
+                                text={'Log Out'}
+                                fullWidth={true}
+                            />
+                        </div>
                     </div>
                 </div>
             </Modal>
