@@ -1,9 +1,9 @@
 import './tableStyles.css';
 import * as React from 'react';
-import { type ITable } from '../../models/ITable';
 import Table from './Table';
 import Modal from 'react-modal';
 import { useState } from 'react';
+import { type ITable } from '../../../models/ITable';
 
 export interface ITableViewProps {
     tables: ITable[];

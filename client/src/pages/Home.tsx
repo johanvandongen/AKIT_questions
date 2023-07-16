@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TableView } from '../components/table/TableView';
 import { type ITable } from '../models/ITable';
 import { useEffect, useState } from 'react';
 import { Create } from '../features/create';
@@ -9,6 +8,7 @@ import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
 import { useAuth0 } from '@auth0/auth0-react';
 import { axiosInstance } from '../utils/axiosInstance';
+import { TableView } from '../features/questionTable';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);

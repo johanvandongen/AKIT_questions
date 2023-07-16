@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { type IAnswer, type ITable } from '../../models/ITable';
 import { useEffect } from 'react';
-import { RequestState } from '../../models/IRequest';
-import useUpdateQuestion from './hooks/useUpdateQuestion';
+import useUpdateQuestion from '../hooks/useUpdateQuestion';
 import { useAuth0 } from '@auth0/auth0-react';
-import { hasRole } from '../login/userRole';
-import Answer from './components/Answer';
-import AnswerForm from './components/AnswerForm';
-import { Spinner } from '../../components/ui';
+import { hasRole } from '../../login/userRole';
+import Answer from './Answer';
+import AnswerForm from './AnswerForm';
+import { type IAnswer, type ITable } from '../../../models/ITable';
+import { RequestState } from '../../../models/IRequest';
+import { Spinner } from '../../../components/ui';
 
 const isAnswered = (answer: IAnswer[]): boolean => {
     return answer.length > 0;
 };
 
-export interface IAnswerSectionProps {
+interface IAnswerSectionProps {
     table: ITable;
     refresh: () => void;
     type: 'finalAnswer' | 'authorReply';
@@ -26,7 +26,7 @@ export interface IAnswerSectionProps {
  * @param refresh refresh function to refetch all tables
  * @param type the type of answer you want to render (answer from author vs answer from senior-author)
  */
-export function AnswerSection({ table, refresh, type }: IAnswerSectionProps): JSX.Element {
+export default function AnswerSection({ table, refresh, type }: IAnswerSectionProps): JSX.Element {
     const { user } = useAuth0();
     const { requestState: updateState, updateQuestion } = useUpdateQuestion(type);
     const questionAnswer: IAnswer[] = type === 'finalAnswer' ? table.answer : table.authorReply;

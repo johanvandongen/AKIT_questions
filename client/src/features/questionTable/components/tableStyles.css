@@ -80,3 +80,67 @@
 .table-footer {
   margin-top: auto;
 }
+
+/**
+* Id select
+*/
+
+.id-select-container {
+  width: 50%;;
+}
+
+/** Text color in item, */
+.item-container {
+  width: 100%;
+  color: var(--black80);
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-container span {
+  margin-right: 0.2rem;
+  overflow: hidden;
+  margin-right: auto;
+}
+
+.item-container button {
+background: none;
+color: inherit;
+border: none;
+padding: 0;
+font: inherit;
+cursor: pointer;
+outline: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.2rem;
+}
+
+/**
+* Color svg
+*/
+.item-container button svg {
+  fill: var(--red30);
+  font-size: 20px;
+}
+
+.item-container button svg:hover {
+  fill: var(--blue30);
+}
+
+/**
+* Answer
+*/
+.answer {
+  margin-top: 0.5rem;
+}
+
+.answer-author {
+  color: white;
+  background-color: var(--red30);
+  border-radius: 0.5rem;
+  font-size: small;
+  padding: 0.3rem;
+  margin-right: 0.5rem;
+}
