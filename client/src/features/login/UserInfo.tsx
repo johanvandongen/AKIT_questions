@@ -4,7 +4,7 @@ import { Auth0Context } from '@auth0/auth0-react';
 import './index.css';
 
 import Modal from 'react-modal';
-import { getUserRoles } from './userRole';
+import { getUserRoles, hasRole } from './userRole';
 import { Button } from '../../components/ui';
 
 Modal.setAppElement('#root');
@@ -42,6 +42,24 @@ export default function UserInfo(): JSX.Element {
                             <div>
                                 <p>Hello {user.nickname}</p>
                                 <p>Your roles: {getUserRoles(user).join(' / ')}</p>
+                            </div>
+                        )}
+
+                        {hasRole(user, 'senior-author') && (
+                            <div className="export-links">
+                                <p>Export database to csv files:</p>
+                                <ul>
+                                    <li>
+                                        <a href="http://localhost:5050/data/unified">
+                                            Export unified
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://localhost:5050/data/split">
+                                            Export split (zip)
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         )}
 
