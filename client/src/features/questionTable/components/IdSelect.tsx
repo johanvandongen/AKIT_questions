@@ -1,11 +1,15 @@
 import * as React from 'react';
-import './IdSelect.css';
-import { DropdownNoSelect } from '../../components/ui';
+import './tableStyles.css';
+import { DropdownNoSelect } from '../../../components/ui';
 
 export interface IIdSelectProps {
     ids: string[];
 }
 
+/**
+ * Renders a dropdown list of exercise ids, where each item has two buttons (copy and open)
+ * @param ids list of ids
+ */
 export default function IdSelect({ ids }: IIdSelectProps): JSX.Element {
     return <DropdownNoSelect itemList={ids} renderItem={IdItem} />;
 }

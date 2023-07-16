@@ -1,17 +1,14 @@
-import './tableStyles.css';
 import React from 'react';
-import { type ITable } from '../../models/ITable';
-import Treated from './Treated';
-import Button from '../ui/button/Button';
-import '../../features/create/components/index.css';
-import { RequestState } from '../../models/IRequest';
-import useDeleteQuestion from '../../features/updateQuestion/hooks/useDeleteQuestion';
-import { AnswerSection } from '../../features/updateQuestion/AnswerSection';
-import Spinner from '../ui/spinner/Spinner';
-import ImageList from '../ui/imagelist/ImageList';
-import IdSelect from '../../features/idSelect/IdSelect';
-import { hasRole } from '../../features/login/userRole';
+import { type ITable } from '../../../models/ITable';
+import useDeleteQuestion from '../hooks/useDeleteQuestion';
+import { hasRole } from '../../login/userRole';
 import { useAuth0 } from '@auth0/auth0-react';
+import Treated from './Treated';
+import IdSelect from './IdSelect';
+import AnswerSection from './AnswerSection';
+import { RequestState } from '../../../models/IRequest';
+import { Button, ImageList, Spinner } from '../../../components/ui';
+import './tableStyles.css';
 
 const baseURL = process.env.REACT_APP_API_URL ?? '';
 
@@ -22,7 +19,7 @@ interface ITableProps {
 }
 
 /**
- * Displays the table information in a nice view.
+ * Displays the question table information in a nice view.
  * @param table table with information
  */
 export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
