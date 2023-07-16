@@ -6,7 +6,6 @@ import UserInfo from '../features/userInfo/UserInfo';
 import Filter from '../features/filter/Filter';
 import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
-import { useAuth0 } from '@auth0/auth0-react';
 import { axiosInstance } from '../utils/axiosInstance';
 import { TableView } from '../features/questionTable';
 
@@ -15,18 +14,11 @@ export default function Home(): JSX.Element {
     const [activeTables, setActiveTables] = useState<ITable[] | null>(tables);
     const [columns, setColumns] = useState(3);
     const [isLoading, setIsLoading] = useState(false);
-    const { getAccessTokenSilently } = useAuth0();
 
     const fetchTables = async (): Promise<void> => {
-        // Add token here again, since this component is rendered before bearer token is set in axios interceptors
-        const token = await getAccessTokenSilently();
         setIsLoading(true);
         await axiosInstance
-            .get('/record', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            .get('/record', {})
             .then((response) => {
                 setIsLoading(false);
                 console.log('no errorr', response);
