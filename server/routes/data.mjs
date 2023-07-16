@@ -16,41 +16,34 @@ const router = express.Router();
 const fileName = 'AKIT_questions.csv'
 const filePath = path.join(__dirname, "../exports", fileName);
 
-const raw = (data) => {
-    const fields = [{label: 'id', value: '_id'}, 'author','question', 'date', 'issue', 'exerciseIds', 'screenshot', 'chapter', 'treated.state', 'treated.remark', 'answer', 'authorReply'];
-    return {data, fields}
-}
-
 /** Export database unified (1 mongo document per row in csv). */
 router.get('/unified', questionSchema, async (req, res) => {
     let collection = await db.collection('Authoring_Questions');
     let result = await collection.find({}).toArray();
     let csv
-    const {data, fields} = raw(result);
+    const fields = [{label: 'id', value: '_id'}, 'author','question', 'date', 'issue', 'exerciseIds', 'screenshot', 'chapter', 'treated.state', 'treated.remark', 'answer', 'authorReply'];
     
     try {
-        console.log('start parseing')
-        csv = json2csv.parse(data, {fields});
+        console.log('start parsing')
+        csv = json2csv.parse(result, {fields});
     } catch (err) {
         return res.status(500).json({err});
     }
 
-    console.log('csv: ', csv)
     fs.writeFile(filePath, csv, function (err) {
-        console.log('here')
         if (err) {
             console.log('err')
             return res.json(err).status(500);
         }
         else {
-            console.log('download')
+            console.log('Start download')
             res.download(filePath, (err) => {
                 console.log('error', err)
                 fs.unlink(filePath, function (err) { // delete this file after download
                     if (err) {
                         console.error(err);
                     }
-                    console.log('File has been Deleted');
+                    console.log(`File ${filePath} has been Deleted`);
                 });
             });
         }
@@ -144,7 +137,6 @@ const createExerciseIdsCSV = (data) => {
         {'id': question._id, 
         'exerciseId': exId}
         ))))
-    console.log('idTable', exerciseIdsTable)
     return json2csv.parse(exerciseIdsTable, {fields});
 }
 
@@ -158,7 +150,6 @@ const createAnswersCSV = (data) => {
     })
         )))
 
-    console.log('answertable', answersTable)
     return json2csv.parse(answersTable, {fields});
 }
 
@@ -172,7 +163,6 @@ const createAuthorReplyCSV = (data) => {
     })
         )))
 
-    console.log('answertable', authorReplyTable)
     return json2csv.parse(authorReplyTable, {fields});
 }
 
@@ -184,7 +174,6 @@ const createImagesCSV = (data) => {
     })
         )))
 
-    console.log('imageTable', imagesTable)
     return json2csv.parse(imagesTable, {fields});
 }
   
