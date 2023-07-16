@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { type IRequest, RequestState } from '../../../models/IRequest';
-import axios from 'axios';
+import { axiosInstance } from '../../../utils/axiosInstance';
 
 export default function useExportSplit(): {
     requestState: IRequest;
@@ -13,8 +13,8 @@ export default function useExportSplit(): {
 
     const exportSplit = async (): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
-        await axios
-            .get('http://localhost:5050/data/split', { responseType: 'blob' })
+        await axiosInstance
+            .get('/data/split', { responseType: 'blob' })
             .then(({ data: blob }) => {
                 console.log('blob', blob);
                 const objectURL = window.URL.createObjectURL(blob);

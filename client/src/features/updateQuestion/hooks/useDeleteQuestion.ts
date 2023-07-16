@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RequestState, type IRequest } from '../../../models/IRequest';
-import axios from 'axios';
+import { axiosInstance } from '../../../utils/axiosInstance';
 
 /**
  * @returns a function to delete a question and the request state.
@@ -17,8 +17,8 @@ export default function useDeleteQuestion(): {
     /** Deletes a question record for the given id. */
     const deleteQuestion = async (id: string): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
-        await axios
-            .delete(`http://localhost:5050/record/${id}`)
+        await axiosInstance
+            .delete(`/record/${id}`)
             .then((response) => {
                 console.log('succesfully deleted', response);
                 setRequestState({ state: RequestState.Successful, message: '' });

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { type IRequest, RequestState } from '../../../models/IRequest';
-import axios from 'axios';
 import FileDownload from 'js-file-download';
+import { axiosInstance } from '../../../utils/axiosInstance';
 
 export default function useExportUnified(): {
     requestState: IRequest;
@@ -14,8 +14,8 @@ export default function useExportUnified(): {
 
     const exportUnified = async (): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
-        await axios
-            .get('http://localhost:5050/data/unified', {})
+        await axiosInstance
+            .get('/data/unified', {})
             .then((response) => {
                 FileDownload(response.data, 'AKIT_questions.csv');
                 setRequestState({ state: RequestState.Successful, message: '' });

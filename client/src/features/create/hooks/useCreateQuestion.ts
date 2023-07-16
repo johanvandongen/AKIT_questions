@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { RequestState, type IRequest } from '../../../models/IRequest';
-import axios, { type AxiosError } from 'axios';
 import { type questionForm } from '../components/Create';
+import { axiosInstance } from '../../../utils/axiosInstance';
+import { type AxiosError } from 'axios';
 
 /**
  * Returns a function to make a post request with all question data. Also
@@ -48,8 +49,8 @@ export default function useCreateQuestion(): {
         // Need to convert it to formdata so that I can send images in screenshot field
         const formData = toFormData(question);
 
-        await axios
-            .post('http://localhost:5050/record', formData, {
+        await axiosInstance
+            .post('/record', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

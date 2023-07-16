@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const baseURL = process.env.REACT_APP_API_URL ?? '';
+console.log('ada', baseURL);
 let token: string = '';
 const updateToken = (newToken: string): void => {
     token = newToken;
@@ -7,13 +9,11 @@ const updateToken = (newToken: string): void => {
 };
 
 const axiosInstance = axios.create({
-    headers: {
-        Authorization: `Bearer ${token}`,
-    },
+    baseURL,
 });
 
 // Add access token to all API requests
-axios.interceptors.request.use(function (config) {
+axiosInstance.interceptors.request.use(function (config) {
     config.headers.Authorization = `Bearer ${token}`;
     return config;
 });

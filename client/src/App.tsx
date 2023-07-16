@@ -13,7 +13,6 @@ function App(): JSX.Element {
         const handleToken = async (): Promise<void> => {
             if (isAuthenticated) {
                 const token = await getAccessTokenSilently();
-                console.log(token);
                 updateToken(token);
             }
         };
