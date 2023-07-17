@@ -4,7 +4,7 @@ import './index.css';
 import { type questionForm } from './Create';
 import { type IRequest, RequestState } from '../../../models/IRequest';
 import ImageUpload from './ImageUpload';
-import { Button, DropdownNoSelect } from '../../../components/ui';
+import { Button } from '../../../components/ui';
 
 enum authors {
     JAYIN = 'Jayin',
