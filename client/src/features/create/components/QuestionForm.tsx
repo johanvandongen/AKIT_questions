@@ -19,7 +19,7 @@ enum authors {
     DAVID = 'David',
     FLEUR = 'Fleur',
     CASPER = 'Casper',
-    OTHER = 'Anders'
+    OTHER = 'Anders',
 }
 
 export interface IQuestionFormProps {
@@ -141,7 +141,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                 <Button
                     onClick={() => {
                         console.log('question data:', question);
-                        onSubmit({ ...question, exerciseIds: question.exerciseIds[0].split(" ")});
+                        onSubmit({ ...question, exerciseIds: question.exerciseIds[0].split(' ') });
                     }}
                     text={'Send question'}
                 />
