@@ -4,13 +4,22 @@ import './index.css';
 import { type questionForm } from './Create';
 import { type IRequest, RequestState } from '../../../models/IRequest';
 import ImageUpload from './ImageUpload';
-import { Button } from '../../../components/ui';
+import { Button, DropdownNoSelect } from '../../../components/ui';
 
 enum authors {
     JAYIN = 'Jayin',
     JOHAN = 'Johan',
     KAY = 'Kay',
     SEBAS = 'Sebas',
+    MAURITS = 'Maurits',
+    SIEM = 'Siem',
+    MILO = 'Milo',
+    MEIKE = 'Meike',
+    THOM = 'Thom',
+    DAVID = 'David',
+    FLEUR = 'Fleur',
+    CASPER = 'Casper',
+    OTHER = 'Anders'
 }
 
 export interface IQuestionFormProps {
@@ -94,7 +103,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                     </div>
 
                     <div className="input-field">
-                        <p>Issue</p>
+                        <p>Issue id</p>
 
                         <input
                             type="text"
@@ -132,7 +141,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                 <Button
                     onClick={() => {
                         console.log('question data:', question);
-                        onSubmit(question);
+                        onSubmit({ ...question, exerciseIds: question.exerciseIds[0].split(" ")});
                     }}
                     text={'Send question'}
                 />
