@@ -5,6 +5,11 @@ import { validationResult } from 'express-validator';
 import questionSchema from '../schema/questionSchema.mjs';
 import multer from 'multer';
 import fs from 'fs';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { fireStorage } from '../db/firebase.mjs';
+
+const baseURL = process.env.BASE_URL;
+const firebaseBaseURL = 'https://firebasestorage.googleapis.com'
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -27,54 +32,112 @@ const upload = multer({storage: storage, limits: {fileSize: 1024 * 1024 * 2}, fi
 
 const router = express.Router();
 
-// Create new record
-router.post('/', upload.array('screenshot', 3), questionSchema, async (req, res) => {
-    console.log('file', req.files)
-
-    let images = [];
-    if (req.files !== undefined) {
-        images = req.files.map((file) => file.path)
-    }
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-    }
-
+const createQuestion = (body, images) => {
     const newQuestion = {
-        author: req.body.author,
-        question: req.body.question,
+        author: body.author,
+        question: body.question,
         date: new Date().toISOString(),
-        issue: req.body.issue,
-        exerciseIds: req.body.exerciseIds === undefined ? [] : req.body.exerciseIds,
+        issue: body.issue,
+        exerciseIds: body.exerciseIds === undefined ? [] : body.exerciseIds,
         screenshot: images,
-        chapter: req.body.chapter,
+        chapter: body.chapter,
         treated : {
-            state: req.body.treated.state,
-            remark: req.body.treated.remark
+            state: body.treated.state,
+            remark: body.treated.remark
         },
-        answer: req.body.answer === undefined ? [] : req.body.answer.map((answer) => ({
+        answer: body.answer === undefined ? [] : body.answer.map((answer) => ({
             date: new Date().toISOString(),
             author: answer.author,
             answer: answer.answer
         })),
-        authorReply: req.body.authorReply === undefined ? [] : req.body.authorReply.map((answer) => ({
+        authorReply: body.authorReply === undefined ? [] : body.authorReply.map((answer) => ({
             date: new Date().toISOString(),
             author: answer.author,
             answer: answer.answer
         })),
     };
-
     console.log('router post new question: \n', newQuestion);
+    return newQuestion
+}
 
+const insertQuestion = async (newQuestion) => {
     let collection = await db.collection('Authoring_Questions');
 
     let result = await collection.insertOne(newQuestion).then((result) => {
         return result;
     }).catch((err) => {
         console.log('Error', err);
+        // Should also delete images that just got stored
+        deleteImages(newQuestion.screenshot)
         return 'Question not inserted since the question already existed';
     });
+    return result;
+}
+
+const deleteImages = (images) => {
+    for (const image of images) {
+        if (image.slice(0, baseURL.length) === baseURL) {
+            // Image stored locally on server so unlink it
+            console.log('Removed the following image: ', image)
+            fs.unlink(image.slice(baseURL.length, image.length), (err) => {
+                if (err) {
+                    console.log(err);
+                    // return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
+                }
+            })
+        } else if (image.slice(0, firebaseBaseURL.length) === firebaseBaseURL) {
+            // Image stored in firebase so delete it there
+            const storageRef = ref(fireStorage, image)
+            deleteObject(storageRef).then(() => {
+                console.log('file succesfully deleted')
+            }).catch((error) => {
+                console.log(`Couldnt delete file ${image}`, error)
+            })
+        }
+    }
+}
+
+// Create new record, where the images are stored locally on the server
+router.post('/local', upload.array('screenshot', 3), questionSchema, async (req, res) => {
+    console.log('file', req.files)
+
+    let images = [];
+    if (req.files !== undefined) {
+        images = req.files.map((file) => baseURL + file.path)
+    }
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        deleteImages(images)
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    const newQuestion = createQuestion(req.body, images)
+    let result = await insertQuestion(newQuestion);
+
+    res.send(result).status(204);
+})
+
+// Create new record, where the images are stored in firebase
+const uploadFirebase = multer({ storage: multer.memoryStorage(), limits: {fileSize: 1024 * 1024 * 2}, fileFilter: fileFilter })
+router.post('/', uploadFirebase.array('screenshot', 3), questionSchema, async (req, res) => {
+    console.log('file', req.files)
+    let images = [];
+    for (const image of req.files) {
+        const metatype = { contentType: image.mimetype, name: image.originalname };
+        const snap = await uploadBytesResumable(ref(fireStorage, 'images/' + new Date().toISOString().replace(/:/g, '-') + image.originalname), image.buffer, metatype)
+        const downloadURL = await getDownloadURL(snap.ref);
+        images.push(downloadURL)
+    }
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        deleteImages(images)
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    const newQuestion = createQuestion(req.body, images)
+    let result = await insertQuestion(newQuestion);
 
     res.send(result).status(204);
 })
@@ -94,16 +157,7 @@ router.delete("/:id", async (req, res) => {
 
     let question = await collection.find(query).toArray();
     const images = question[0].screenshot;
-    for (const image of images) {
-        console.log('Removed the following image: ', image)
-        fs.unlink(image, (err) => {
-            if (err) {
-                console.log(err);
-                // return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
-            }
-        })
-    }
-
+    deleteImages(images);
     let result = await collection.deleteOne(query);
   
     res.send(result).status(200);

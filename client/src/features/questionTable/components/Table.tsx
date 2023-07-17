@@ -10,8 +10,6 @@ import { RequestState } from '../../../models/IRequest';
 import { Button, ImageList, Spinner } from '../../../components/ui';
 import './tableStyles.css';
 
-const baseURL = process.env.REACT_APP_API_URL ?? '';
-
 interface ITableProps {
     table: ITable;
     refresh: () => void;
@@ -62,7 +60,7 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                 <p>{table.question}</p>
 
                 <ImageList
-                    images={table.screenshot.map((image) => baseURL + String(image))}
+                    images={table.screenshot.map((image) => String(image))}
                     onClick={(image: string) => {
                         setCurrentImage(image);
                     }}
