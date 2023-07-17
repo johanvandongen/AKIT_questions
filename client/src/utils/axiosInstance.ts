@@ -5,7 +5,7 @@ console.log('ada', baseURL);
 let token: string = '';
 const updateToken = (newToken: string): void => {
     token = newToken;
-    console.log(`Updated token to ${token}`);
+    // console.log(`Updated token to ${token}`);
 };
 
 const axiosInstance = axios.create({

@@ -25,7 +25,6 @@
     "nodemon": "^2.0.22",
     "pino": "^8.14.1",
     "react": "^18.2.0",
-    "react-axios": "^2.0.6",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-scripts": "5.0.1",
