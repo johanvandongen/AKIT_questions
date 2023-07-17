@@ -158,28 +158,6 @@ router.delete("/:id", async (req, res) => {
     let question = await collection.find(query).toArray();
     const images = question[0].screenshot;
     deleteImages(images);
-    // for (const image of images) {
-
-    //     if (image.slice(0, baseURL.length) === baseURL) {
-    //         // Image stored locally on server so unlink it
-    //         console.log('Removed the following image: ', image)
-    //         fs.unlink(image.slice(baseURL.length, image.length), (err) => {
-    //             if (err) {
-    //                 console.log(err);
-    //                 // return res.status(500).json({ errors: 'Something went wrong when deleting the associated images' })
-    //             }
-    //         })
-    //     } else if (image.slice(0, firebaseBaseURL.length) === firebaseBaseURL) {
-    //         // Image stored in firebase so delete it there
-    //         const storageRef = ref(fireStorage, image)
-    //         deleteObject(storageRef).then(() => {
-    //             console.log('file succesfully deleted')
-    //         }).catch((error) => {
-    //             console.log(`Couldnt delete file ${image}`, error)
-    //         })
-    //     }
-    // }
-
     let result = await collection.deleteOne(query);
   
     res.send(result).status(200);
