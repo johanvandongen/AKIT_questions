@@ -10,6 +10,7 @@ enum authors {
     JAYIN = 'Jayin',
     JOHAN = 'Johan',
     KAY = 'Kay',
+    LIEKE = 'Lieke',
     SEBAS = 'Sebas',
     MAURITS = 'Maurits',
     SIEM = 'Siem',
@@ -56,6 +57,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                         <p>author</p>
                         <select
                             required={true}
+                            defaultValue={''}
                             onChange={(e) => {
                                 setQuestion((prev) => ({
                                     ...prev,
@@ -63,7 +65,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                                 }));
                             }}
                         >
-                            <option disabled selected value={''}>
+                            <option disabled value={''}>
                                 -- select an option --
                             </option>
                             {Object.keys(authors).map((key) => (
