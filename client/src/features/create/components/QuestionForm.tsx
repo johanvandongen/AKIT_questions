@@ -82,9 +82,12 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                         <input
                             type="text"
                             placeholder={'exercise id'}
-                            value={question.exerciseIds}
+                            value={question.exerciseIds.join(' ')}
                             onChange={(e) => {
-                                setQuestion((prev) => ({ ...prev, exerciseIds: [e.target.value] }));
+                                setQuestion((prev) => ({
+                                    ...prev,
+                                    exerciseIds: e.target.value.split(' '),
+                                }));
                             }}
                         />
                     </div>
@@ -143,7 +146,7 @@ export default function QuestionForm({ onSubmit, requestState }: IQuestionFormPr
                 <Button
                     onClick={() => {
                         console.log('question data:', question);
-                        onSubmit({ ...question, exerciseIds: question.exerciseIds[0].split(' ') });
+                        onSubmit({ ...question });
                     }}
                     text={'Send question'}
                 />

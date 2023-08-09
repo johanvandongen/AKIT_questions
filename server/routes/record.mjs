@@ -67,7 +67,6 @@ const insertQuestion = async (newQuestion) => {
         return result;
     }).catch((err) => {
         console.log('Error', err);
-        // Should also delete images that just got stored
         deleteImages(newQuestion.screenshot)
         return 'Question not inserted since the question already existed';
     });
@@ -123,11 +122,16 @@ const uploadFirebase = multer({ storage: multer.memoryStorage(), limits: {fileSi
 router.post('/', uploadFirebase.array('screenshot', 3), questionSchema, async (req, res) => {
     console.log('file', req.files)
     let images = [];
-    for (const image of req.files) {
-        const metatype = { contentType: image.mimetype, name: image.originalname };
-        const snap = await uploadBytesResumable(ref(fireStorage, 'images/' + new Date().toISOString().replace(/:/g, '-') + image.originalname), image.buffer, metatype)
-        const downloadURL = await getDownloadURL(snap.ref);
-        images.push(downloadURL)
+
+    try {
+        for (const image of req.files) {
+            const metatype = { contentType: image.mimetype, name: image.originalname };
+            const snap = await uploadBytesResumable(ref(fireStorage, 'images/' + new Date().toISOString().replace(/:/g, '-') + image.originalname), image.buffer, metatype)
+            const downloadURL = await getDownloadURL(snap.ref);
+            images.push(downloadURL)
+        }
+    } catch (e) {
+        return res.status(500).json({ errors: e })
     }
 
     const errors = validationResult(req);
@@ -155,10 +159,15 @@ router.delete("/:id", async (req, res) => {
   
     const collection = db.collection("Authoring_Questions");
 
-    let question = await collection.find(query).toArray();
-    const images = question[0].screenshot;
-    deleteImages(images);
-    let result = await collection.deleteOne(query);
+    let result;
+    try {
+        let question = await collection.find(query).toArray();
+        const images = question[0].screenshot;
+        deleteImages(images);
+        result = await collection.deleteOne(query);
+    } catch (e) {
+        return res.status(500).json({ errors: e })
+    }
   
     res.send(result).status(200);
   });
@@ -183,8 +192,16 @@ router.patch("/answer/:id", async (req, res) => {
       }
     };
   
-    let collection = await db.collection("Authoring_Questions");
-    let result = await collection.updateOne(query, updates);
+    
+    let result
+    try {
+        let collection = await db.collection("Authoring_Questions");
+        result = await collection.updateOne(query, updates);
+
+    } catch (e) {
+        console.log('error', e);
+        return res.status(500).json({ errors: e })
+    }
   
     res.send(result).status(200);
   });
@@ -203,8 +220,14 @@ router.patch("/answer/:id", async (req, res) => {
         }
     };
   
-    let collection = await db.collection("Authoring_Questions");
-    let result = await collection.updateOne(query, updates);
+    let result;
+    try {
+        let collection = await db.collection("Authoring_Questions");
+        result = await collection.updateOne(query, updates);
+    } catch (e) {
+        console.log('error', e);
+        return res.status(500).json({ errors: e })
+    }
   
     res.send(result).status(200);
   });
