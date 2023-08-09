@@ -9,6 +9,7 @@ import AnswerSection from './AnswerSection';
 import { RequestState } from '../../../models/IRequest';
 import { Button, ImageList, Spinner } from '../../../components/ui';
 import './tableStyles.css';
+import { copyTable } from '../utils/utils';
 
 interface ITableProps {
     table: ITable;
@@ -70,16 +71,25 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             <div className="table-footer">
                 <AnswerSection table={table} refresh={refresh} type="finalAnswer" />
                 <AnswerSection table={table} refresh={refresh} type="authorReply" />
-                {hasRole(user, 'senior-author') && (
-                    <div className="table-row">
+
+                <div className="table-row-horizontal-full">
+                    <Button
+                        onClick={() => {
+                            copyTable(table);
+                        }}
+                        fullWidth={true}
+                        text={'Copy'}
+                    />
+                    {hasRole(user, 'senior-author') && (
                         <Button
                             onClick={async () => {
                                 void deleteQuestion(table._id);
                             }}
+                            fullWidth={true}
                             text={'Delete'}
                         />
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );

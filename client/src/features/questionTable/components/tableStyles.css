@@ -29,6 +29,16 @@
   padding-right: 1rem;
 }
 
+.table-row-horizontal-full {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .table-row-horizontal {
   display: flex;
   flex-direction: row;
