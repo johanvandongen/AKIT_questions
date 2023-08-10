@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ImageList } from '../../../components/ui';
 import './FileInput.css';
+import { MAX_IMAGE_UPLOAD } from '../../../constants/constants';
 
 export interface IImageUploadProps {
     onAddImage: (images: File[]) => void;
@@ -35,9 +36,9 @@ export default function FileInput({ onAddImage, onImageClick }: IImageUploadProp
             setImageError(null);
         }
 
-        if (postImage.length >= 3) {
-            setImageError('Only 3 images allowed');
-            console.log('only 3 images allowed');
+        if (postImage.length >= MAX_IMAGE_UPLOAD) {
+            setImageError(`Only ${MAX_IMAGE_UPLOAD} images allowed`);
+            console.log(`only ${MAX_IMAGE_UPLOAD} images allowed`);
             return;
         }
         setPostImage((prev) => [...prev, file]);
