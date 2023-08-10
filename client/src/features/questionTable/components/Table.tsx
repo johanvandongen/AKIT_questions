@@ -15,13 +15,19 @@ interface ITableProps {
     table: ITable;
     refresh: () => void;
     setCurrentImage: (image: string) => void;
+    deleteTable: (callback: (id: string) => Promise<void>) => void;
 }
 
 /**
  * Displays the question table information in a nice view.
  * @param table table with information
  */
-export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
+export default function Table({
+    table,
+    refresh,
+    setCurrentImage,
+    deleteTable,
+}: ITableProps): JSX.Element {
     console.log('Table rerendered', table._id);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
     const { user } = useAuth0();
@@ -94,8 +100,10 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                     />
                     {hasRole(user, 'senior-author') && (
                         <Button
-                            onClick={async () => {
-                                void deleteQuestion(table._id);
+                            onClick={() => {
+                                deleteTable(async () => {
+                                    void deleteQuestion(table._id);
+                                });
                             }}
                             fullWidth={true}
                             text={'Delete'}

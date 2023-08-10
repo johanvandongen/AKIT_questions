@@ -1,0 +1,33 @@
+.button {
+    padding: 0.5rem;
+    background-color: var(--red30);
+    border-radius: 0.5rem;
+    border: none;
+    transition: .45s;
+}
+
+.button.orange{
+    background-color: var(--orange);
+}
+
+.button.full-width{
+    width: 100%;
+}
+
+.button.orange:hover {
+    opacity: 0.9;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.button.blue-white {
+    background-color: var(--red30);
+    color: white;
+}
+
+.button.red-white {
+    background-color: var(--red80);
+    color: white;
+}

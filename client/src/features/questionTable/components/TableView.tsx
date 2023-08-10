@@ -1,9 +1,11 @@
 import './tableStyles.css';
+import './modal.css';
 import * as React from 'react';
 import Table from './Table';
 import Modal from 'react-modal';
 import { useMemo, useState } from 'react';
 import { type ITable } from '../../../models/ITable';
+import { ConfirmModal } from '../../../components/ui/confirmModal/ConfirmModal';
 
 export interface ITableViewProps {
     tables: ITable[];
@@ -19,6 +21,10 @@ Modal.setAppElement('#root');
  */
 export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
+    const [deleteModelIsOpen, setDeleteModalIsOpen] = useState(false);
+    const [deleteModelCallback, setDeleteModelCallback] = useState<
+        null | (() => (id: string) => Promise<void>)
+    >(null);
     const [CurrentImage, setCurrentImage] = useState('');
 
     // Rendering all tables is expensive, so memo it so it doesnt get rerendered
@@ -33,6 +39,10 @@ export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.El
                     setCurrentImage={(image: string) => {
                         setCurrentImage(image);
                         setModalIsOpen(true);
+                    }}
+                    deleteTable={(callback: (id: string) => Promise<void>) => {
+                        setDeleteModelCallback(() => callback);
+                        setDeleteModalIsOpen(true);
                     }}
                 />
             )),
@@ -61,6 +71,19 @@ export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.El
                     <img src={CurrentImage} />
                 </div>
             </Modal>
+
+            <ConfirmModal
+                modalIsOpen={deleteModelIsOpen}
+                setModalIsOpen={(modelIsOpen: boolean) => {
+                    setDeleteModalIsOpen(modelIsOpen);
+                }}
+                callback={() => {
+                    if (deleteModelCallback !== null) {
+                        void deleteModelCallback();
+                    }
+                    setDeleteModalIsOpen(false);
+                }}
+            />
 
             {tableView}
         </div>
