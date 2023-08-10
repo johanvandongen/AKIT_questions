@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { Button } from '../../../components/ui';
-import ImageUpload from '../../create/components/ImageUpload';
+import FileInput from '../../../components/ui/input/FileInput';
 
 interface IAnswerFormProps {
     id: string;
@@ -12,6 +12,7 @@ interface IAnswerFormProps {
         author: string | undefined,
         images: File[]
     ) => Promise<void>;
+    setCurrentImage: (image: string) => void;
 }
 
 /**
@@ -19,7 +20,11 @@ interface IAnswerFormProps {
  * @param id the id of the question (used to update the question data).
  * @param updateQuestion function to update the question data in the database.
  */
-export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JSX.Element {
+export default function AnswerForm({
+    id,
+    updateQuestion,
+    setCurrentImage,
+}: IAnswerFormProps): JSX.Element {
     const [answer, setAnswer] = useState('');
     const [images, setImages] = useState<File[]>([]);
     const { user } = useAuth0();
@@ -36,9 +41,12 @@ export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JS
                     }}
                 />
             </div>
-            <ImageUpload
-                addImages={(images: File[]) => {
+            <FileInput
+                onAddImage={(images: File[]) => {
                     setImages(images);
+                }}
+                onImageClick={(image) => {
+                    setCurrentImage(image);
                 }}
             />
             {answer !== '' && (

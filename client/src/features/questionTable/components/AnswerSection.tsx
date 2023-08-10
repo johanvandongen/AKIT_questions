@@ -74,7 +74,13 @@ export default function AnswerSection({
                 </div>
             )}
 
-            {allowAddAnswer && <AnswerForm id={table._id} updateQuestion={updateQuestion} />}
+            {allowAddAnswer && (
+                <AnswerForm
+                    id={table._id}
+                    updateQuestion={updateQuestion}
+                    setCurrentImage={setCurrentImage}
+                />
+            )}
         </>
     );
 }
