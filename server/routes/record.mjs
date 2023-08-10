@@ -173,9 +173,23 @@ router.delete("/:id", async (req, res) => {
   });
 
 // This section will help you update a record by id.
-router.patch("/answer/:id", async (req, res) => {
+router.patch("/answer/:id", uploadFirebase.array('images', 3), async (req, res) => {
+    console.log('req files', req.files);
+
+    let images = [];
+
+    try {
+        for (const image of req.files) {
+            const metatype = { contentType: image.mimetype, name: image.originalname };
+            const snap = await uploadBytesResumable(ref(fireStorage, 'images/' + new Date().toISOString().replace(/:/g, '-') + image.originalname), image.buffer, metatype)
+            const downloadURL = await getDownloadURL(snap.ref);
+            images.push(downloadURL)
+        }
+    } catch (e) {
+        return res.status(500).json({ errors: e })
+    }
+
     const query = { _id: new ObjectId(req.params.id) };
-    console.log(req.body);
     
     const updates =  {
       $set: {
@@ -187,7 +201,8 @@ router.patch("/answer/:id", async (req, res) => {
         answer: {
             date: new Date().toISOString(),
             author: req.body.author,
-            answer: req.body.answer
+            answer: req.body.answer,
+            images: images
         }
       }
     };

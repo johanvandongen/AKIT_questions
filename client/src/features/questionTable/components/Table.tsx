@@ -22,7 +22,7 @@ interface ITableProps {
  * @param table table with information
  */
 export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
-    // console.log('Table rerendered', table);
+    console.log('Table rerendered', table._id);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
     const { user } = useAuth0();
 
@@ -69,8 +69,18 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
             </div>
 
             <div className="table-footer">
-                <AnswerSection table={table} refresh={refresh} type="finalAnswer" />
-                <AnswerSection table={table} refresh={refresh} type="authorReply" />
+                <AnswerSection
+                    table={table}
+                    refresh={refresh}
+                    type="finalAnswer"
+                    setCurrentImage={setCurrentImage}
+                />
+                <AnswerSection
+                    table={table}
+                    refresh={refresh}
+                    type="authorReply"
+                    setCurrentImage={setCurrentImage}
+                />
 
                 <div className="table-row-horizontal-full">
                     <Button

@@ -17,6 +17,7 @@ interface IAnswerSectionProps {
     table: ITable;
     refresh: () => void;
     type: 'finalAnswer' | 'authorReply';
+    setCurrentImage: (image: string) => void;
 }
 
 /**
@@ -26,7 +27,12 @@ interface IAnswerSectionProps {
  * @param refresh refresh function to refetch all tables
  * @param type the type of answer you want to render (answer from author vs answer from senior-author)
  */
-export default function AnswerSection({ table, refresh, type }: IAnswerSectionProps): JSX.Element {
+export default function AnswerSection({
+    table,
+    refresh,
+    type,
+    setCurrentImage,
+}: IAnswerSectionProps): JSX.Element {
     const { user } = useAuth0();
     const { requestState: updateState, updateQuestion } = useUpdateQuestion(type);
     const questionAnswer: IAnswer[] = type === 'finalAnswer' ? table.answer : table.authorReply;
@@ -59,7 +65,11 @@ export default function AnswerSection({ table, refresh, type }: IAnswerSectionPr
                         </span>
                     </p>
                     {questionAnswer.map((answer) => (
-                        <Answer key={answer.answer + answer.date} answer={answer} />
+                        <Answer
+                            key={answer.answer + answer.date}
+                            answer={answer}
+                            setCurrentImage={setCurrentImage}
+                        />
                     ))}
                 </div>
             )}

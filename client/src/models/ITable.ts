@@ -19,4 +19,5 @@ export interface IAnswer {
     date: string;
     author: string;
     answer: string;
+    images: string[];
 }

@@ -2,10 +2,16 @@ import * as React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { Button } from '../../../components/ui';
+import ImageUpload from '../../create/components/ImageUpload';
 
 interface IAnswerFormProps {
     id: string;
-    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
+    updateQuestion: (
+        id: string,
+        answer: string,
+        author: string | undefined,
+        images: File[]
+    ) => Promise<void>;
 }
 
 /**
@@ -15,6 +21,7 @@ interface IAnswerFormProps {
  */
 export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JSX.Element {
     const [answer, setAnswer] = useState('');
+    const [images, setImages] = useState<File[]>([]);
     const { user } = useAuth0();
 
     return (
@@ -29,10 +36,15 @@ export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JS
                     }}
                 />
             </div>
+            <ImageUpload
+                addImages={(images: File[]) => {
+                    setImages(images);
+                }}
+            />
             {answer !== '' && (
                 <Button
                     onClick={async () => {
-                        void updateQuestion(id, answer, user?.nickname);
+                        void updateQuestion(id, answer, user?.nickname, images);
                     }}
                     text={'Submit'}
                 />
