@@ -117,10 +117,12 @@ router.post('/local', upload.array('screenshot', 3), questionSchema, async (req,
     res.send(result).status(204);
 })
 
-// Create new record, where the images are stored in firebase
-const uploadFirebase = multer({ storage: multer.memoryStorage(), limits: {fileSize: 1024 * 1024 * 2}, fileFilter: fileFilter })
-router.post('/', uploadFirebase.array('screenshot', 3), questionSchema, async (req, res) => {
-    console.log('file', req.files)
+/**
+ * Looks at the files in the request and uploads those to firebase. 
+ * The download url of the firebase image is then added to the request.
+ */
+const firebaseImagePaths = async (req, res, next) => {
+    console.log('req files', req.files);
     let images = [];
 
     try {
@@ -130,9 +132,18 @@ router.post('/', uploadFirebase.array('screenshot', 3), questionSchema, async (r
             const downloadURL = await getDownloadURL(snap.ref);
             images.push(downloadURL)
         }
+        req.body.firebaseImagePaths = images;
     } catch (e) {
         return res.status(500).json({ errors: e })
     }
+    next()
+
+}
+
+// Create new record, where the images are stored in firebase
+const uploadFirebase = multer({ storage: multer.memoryStorage(), limits: {fileSize: 1024 * 1024 * 2}, fileFilter: fileFilter })
+router.post('/', uploadFirebase.array('screenshot', 3), firebaseImagePaths, questionSchema, async (req, res) => {
+    let images = req.body.firebaseImagePaths;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -173,9 +184,9 @@ router.delete("/:id", async (req, res) => {
   });
 
 // This section will help you update a record by id.
-router.patch("/answer/:id", async (req, res) => {
+router.patch("/answer/:id", uploadFirebase.array('images', 3), firebaseImagePaths, async (req, res) => {
+    let images = req.body.firebaseImagePaths;
     const query = { _id: new ObjectId(req.params.id) };
-    console.log(req.body);
     
     const updates =  {
       $set: {
@@ -187,7 +198,8 @@ router.patch("/answer/:id", async (req, res) => {
         answer: {
             date: new Date().toISOString(),
             author: req.body.author,
-            answer: req.body.answer
+            answer: req.body.answer,
+            images: images
         }
       }
     };
@@ -206,16 +218,17 @@ router.patch("/answer/:id", async (req, res) => {
     res.send(result).status(200);
   });
 
-  router.patch("/reply/:id", async (req, res) => {
+  router.patch("/reply/:id", uploadFirebase.array('images', 3), firebaseImagePaths, async (req, res) => {
+    let images = req.body.firebaseImagePaths;
     const query = { _id: new ObjectId(req.params.id) };
-    console.log(req.body);
     
     const updates =  {
         $push: {
           authorReply: {
               date: new Date().toISOString(),
               author: req.body.author,
-              answer: req.body.answer
+              answer: req.body.answer,
+              images: images
           }
         }
     };

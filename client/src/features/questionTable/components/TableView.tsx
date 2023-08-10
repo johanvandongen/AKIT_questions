@@ -2,7 +2,7 @@ import './tableStyles.css';
 import * as React from 'react';
 import Table from './Table';
 import Modal from 'react-modal';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { type ITable } from '../../../models/ITable';
 
 export interface ITableViewProps {
@@ -20,6 +20,24 @@ Modal.setAppElement('#root');
 export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const [CurrentImage, setCurrentImage] = useState('');
+
+    // Rendering all tables is expensive, so memo it so it doesnt get rerendered
+    // when updating the modal state (opening an image modal should not cause all tables to rerender).
+    const tableView = useMemo(
+        () =>
+            tables.map((table: ITable) => (
+                <Table
+                    key={'table' + String(table._id)}
+                    table={table}
+                    refresh={refresh}
+                    setCurrentImage={(image: string) => {
+                        setCurrentImage(image);
+                        setModalIsOpen(true);
+                    }}
+                />
+            )),
+        [tables, columns, refresh]
+    );
 
     return (
         <div className="table-view" style={{ gridTemplateColumns: '1fr '.repeat(columns) }}>
@@ -44,17 +62,7 @@ export function TableView({ tables, columns, refresh }: ITableViewProps): JSX.El
                 </div>
             </Modal>
 
-            {tables.map((table: ITable) => (
-                <Table
-                    key={'table' + String(table._id) + String(table.answer)}
-                    table={table}
-                    refresh={refresh}
-                    setCurrentImage={(image: string) => {
-                        setCurrentImage(image);
-                        setModalIsOpen(true);
-                    }}
-                />
-            ))}
+            {tableView}
         </div>
     );
 }

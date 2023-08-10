@@ -2,10 +2,17 @@ import * as React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { Button } from '../../../components/ui';
+import FileInput from '../../../components/ui/input/FileInput';
 
 interface IAnswerFormProps {
     id: string;
-    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
+    updateQuestion: (
+        id: string,
+        answer: string,
+        author: string | undefined,
+        images: File[]
+    ) => Promise<void>;
+    setCurrentImage: (image: string) => void;
 }
 
 /**
@@ -13,8 +20,14 @@ interface IAnswerFormProps {
  * @param id the id of the question (used to update the question data).
  * @param updateQuestion function to update the question data in the database.
  */
-export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JSX.Element {
+export default function AnswerForm({
+    id,
+    updateQuestion,
+    setCurrentImage,
+}: IAnswerFormProps): JSX.Element {
     const [answer, setAnswer] = useState('');
+    const [images, setImages] = useState<File[]>([]);
+    const [showMore, setShowMore] = useState(false);
     const { user } = useAuth0();
 
     return (
@@ -29,10 +42,40 @@ export default function AnswerForm({ id, updateQuestion }: IAnswerFormProps): JS
                     }}
                 />
             </div>
+            {showMore ? (
+                <>
+                    <FileInput
+                        onAddImage={(images: File[]) => {
+                            setImages(images);
+                        }}
+                        onImageClick={(image) => {
+                            setCurrentImage(image);
+                        }}
+                    />
+                    <a
+                        className="show-more"
+                        onClick={() => {
+                            setShowMore(false);
+                        }}
+                    >
+                        Show less
+                    </a>
+                </>
+            ) : (
+                <a
+                    className="show-more"
+                    onClick={() => {
+                        setShowMore(true);
+                    }}
+                >
+                    Show more
+                </a>
+            )}
+
             {answer !== '' && (
                 <Button
                     onClick={async () => {
-                        void updateQuestion(id, answer, user?.nickname);
+                        void updateQuestion(id, answer, user?.nickname, images);
                     }}
                     text={'Submit'}
                 />

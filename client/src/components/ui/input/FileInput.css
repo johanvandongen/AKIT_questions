@@ -1,0 +1,34 @@
+.file-input-field {
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input-field > span{
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+
+.file-input-field > p{
+    color: black;
+}
+
+input:invalid ~ span {
+    display: block;
+}
+
+.file-input-field input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0px;
+    border-radius: 0.4rem;
+    border: 1px solid gray;
+}
+
+.image-error {
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: inline-block;
+}

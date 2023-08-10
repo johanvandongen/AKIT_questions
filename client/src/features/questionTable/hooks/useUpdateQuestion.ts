@@ -8,7 +8,12 @@ import { axiosInstance } from '../../../utils/axiosInstance';
  */
 export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): {
     requestState: IRequest;
-    updateQuestion: (id: string, answer: string, author: string | undefined) => Promise<void>;
+    updateQuestion: (
+        id: string,
+        answer: string,
+        author: string | undefined,
+        images: File[]
+    ) => Promise<void>;
 } {
     const [requestState, setRequestState] = useState<IRequest>({
         state: RequestState.Idle,
@@ -19,14 +24,16 @@ export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): 
     const updateQuestion = async (
         id: string,
         answer: string,
-        author: string | undefined
+        author: string | undefined,
+        images: File[]
     ): Promise<void> => {
         setRequestState({ state: RequestState.Loading, message: '' });
         const query = `/record/${type === 'finalAnswer' ? 'answer' : 'reply'}/${id}`;
+        // console.log(getFormData({ answer, author, images }));
         await axiosInstance
-            .patch(query, JSON.stringify({ answer, author }), {
+            .patch(query, answerToFormData(answer, author, images), {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             })
             .then((response) => {
@@ -40,3 +47,23 @@ export default function useUpdateQuestion(type: 'finalAnswer' | 'authorReply'): 
 
     return { requestState, updateQuestion };
 }
+
+const answerToFormData = (answer: string, author: string | undefined, images: File[]): FormData => {
+    const formData = new FormData();
+    formData.append('answer', answer);
+    author !== undefined && formData.append('author', author);
+
+    for (const imageFile of images) {
+        formData.append('images', imageFile);
+    }
+
+    return formData;
+};
+
+// function getFormData(object: any): FormData {
+//     const formData = new FormData();
+//     Object.keys(object).forEach((key) => {
+//         formData.append(key, object[key]);
+//     });
+//     return formData;
+// }
