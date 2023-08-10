@@ -154,3 +154,14 @@ outline: inherit;
   padding: 0.3rem;
   margin-right: 0.5rem;
 }
+
+.show-more {
+  text-decoration: underline;
+  color: blue;
+  font-size: small;
+  margin-bottom: 0.5rem;
+}
+
+.image-list-container {
+  margin-top: 0.5rem;
+}

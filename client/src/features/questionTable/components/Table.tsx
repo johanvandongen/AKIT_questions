@@ -60,12 +60,14 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                 </p>
                 <p>{table.question}</p>
 
-                <ImageList
-                    images={table.screenshot.map((image) => String(image))}
-                    onClick={(image: string) => {
-                        setCurrentImage(image);
-                    }}
-                />
+                <div className="image-list-container">
+                    <ImageList
+                        images={table.screenshot.map((image) => String(image))}
+                        onClick={(image: string) => {
+                            setCurrentImage(image);
+                        }}
+                    />
+                </div>
             </div>
 
             <div className="table-footer">

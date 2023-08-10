@@ -27,6 +27,7 @@ export default function AnswerForm({
 }: IAnswerFormProps): JSX.Element {
     const [answer, setAnswer] = useState('');
     const [images, setImages] = useState<File[]>([]);
+    const [showMore, setShowMore] = useState(false);
     const { user } = useAuth0();
 
     return (
@@ -41,14 +42,36 @@ export default function AnswerForm({
                     }}
                 />
             </div>
-            <FileInput
-                onAddImage={(images: File[]) => {
-                    setImages(images);
-                }}
-                onImageClick={(image) => {
-                    setCurrentImage(image);
-                }}
-            />
+            {showMore ? (
+                <>
+                    <FileInput
+                        onAddImage={(images: File[]) => {
+                            setImages(images);
+                        }}
+                        onImageClick={(image) => {
+                            setCurrentImage(image);
+                        }}
+                    />
+                    <a
+                        className="show-more"
+                        onClick={() => {
+                            setShowMore(false);
+                        }}
+                    >
+                        Show less
+                    </a>
+                </>
+            ) : (
+                <a
+                    className="show-more"
+                    onClick={() => {
+                        setShowMore(true);
+                    }}
+                >
+                    Show more
+                </a>
+            )}
+
             {answer !== '' && (
                 <Button
                     onClick={async () => {

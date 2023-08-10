@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { ImageList } from '../../../components/ui';
+import './FileInput.css';
 
 export interface IImageUploadProps {
     onAddImage: (images: File[]) => void;
@@ -16,12 +17,13 @@ export interface IImageUploadProps {
 export default function FileInput({ onAddImage, onImageClick }: IImageUploadProps): JSX.Element {
     const [postImage, setPostImage] = useState<File[]>([]);
     const [imagesBase64, setImagesBase64] = useState<string[]>([]);
-    const [imageError, setImageError] = useState('');
+    const [imageError, setImageError] = useState<string | null>(null);
     const [randomKey, setRandomKey] = useState(''); // state used to force a react rerender (kinda hacky)
 
     /** Get file, check it, convert it and then set it in state, */
     const handleFileUpload = async (e: any): Promise<void> => {
         const file: File = e.target.files[0] as File;
+        // console.log(file);
         const base64 = await convertToBase64(file);
 
         const maxKbSize = 1024 * 1024;
@@ -30,7 +32,7 @@ export default function FileInput({ onAddImage, onImageClick }: IImageUploadProp
             console.log('file too big');
             return;
         } else {
-            setImageError('');
+            setImageError(null);
         }
 
         if (postImage.length >= 3) {
@@ -66,9 +68,9 @@ export default function FileInput({ onAddImage, onImageClick }: IImageUploadProp
 
     // Remove error message and rerender input by updating randomKey.
     useEffect(() => {
-        if (imageError !== '') {
+        if (imageError !== null) {
             setTimeout(() => {
-                setImageError('');
+                setImageError(null);
                 setRandomKey(Math.random().toString());
             }, 1500);
         }
@@ -81,7 +83,7 @@ export default function FileInput({ onAddImage, onImageClick }: IImageUploadProp
 
     return (
         <div>
-            <div className="input-field">
+            <div className="file-input-field">
                 <p>Input files</p>
                 <input
                     key={randomKey}
@@ -99,7 +101,7 @@ export default function FileInput({ onAddImage, onImageClick }: IImageUploadProp
                     onImageClick(image);
                 }}
             />
-            <span className="image-error">{imageError}</span>
+            {imageError !== null && <span className="image-error">{imageError}</span>}
         </div>
     );
 }
