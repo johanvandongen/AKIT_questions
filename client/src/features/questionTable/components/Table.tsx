@@ -10,21 +10,29 @@ import { RequestState } from '../../../models/IRequest';
 import { Button, ImageList, Spinner } from '../../../components/ui';
 import './tableStyles.css';
 import { copyTable } from '../utils/utils';
+import { NotificationBox, useNotificaiton } from '../../notification';
 
 interface ITableProps {
     table: ITable;
     refresh: () => void;
     setCurrentImage: (image: string) => void;
+    deleteTable: (callback: (id: string) => Promise<void>) => void;
 }
 
 /**
  * Displays the question table information in a nice view.
  * @param table table with information
  */
-export default function Table({ table, refresh, setCurrentImage }: ITableProps): JSX.Element {
+export default function Table({
+    table,
+    refresh,
+    setCurrentImage,
+    deleteTable,
+}: ITableProps): JSX.Element {
     console.log('Table rerendered', table._id);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
     const { user } = useAuth0();
+    const { notification, showTemporarily } = useNotificaiton();
 
     // If deletion was succesful, dont show the table anymore. Could also refetch all tables.
     if (deleteState.state === RequestState.Successful) {
@@ -88,14 +96,17 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                     <Button
                         onClick={() => {
                             copyTable(table);
+                            showTemporarily('Copied to clipboard!', 'successful');
                         }}
                         fullWidth={true}
                         text={'Copy'}
                     />
                     {hasRole(user, 'senior-author') && (
                         <Button
-                            onClick={async () => {
-                                void deleteQuestion(table._id);
+                            onClick={() => {
+                                deleteTable(async () => {
+                                    void deleteQuestion(table._id);
+                                });
                             }}
                             fullWidth={true}
                             text={'Delete'}
@@ -103,6 +114,7 @@ export default function Table({ table, refresh, setCurrentImage }: ITableProps):
                     )}
                 </div>
             </div>
+            <NotificationBox notification={notification} />
         </div>
     );
 }

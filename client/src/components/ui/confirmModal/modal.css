@@ -1,0 +1,14 @@
+.confirm-delete-container {
+    height: 100%;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dialog-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+}

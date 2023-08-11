@@ -1,10 +1,10 @@
 import * as React from 'react';
-import '../ui.css';
+import './button.css';
 
 interface IButtonProps {
     onClick: any;
     text: string;
-    theme?: 'blue' | 'orange';
+    theme?: 'blue' | 'orange' | 'blue-white' | 'red-white';
     fullWidth?: boolean;
 }
 
