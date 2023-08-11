@@ -10,8 +10,7 @@ import { RequestState } from '../../../models/IRequest';
 import { Button, ImageList, Spinner } from '../../../components/ui';
 import './tableStyles.css';
 import { copyTable } from '../utils/utils';
-import Notification from '../../../components/ui/notification/Notification';
-import useNotificaiton from '../../../components/ui/notification/useNotification';
+import { NotificationBox, useNotificaiton } from '../../notification';
 
 interface ITableProps {
     table: ITable;
@@ -33,7 +32,7 @@ export default function Table({
     console.log('Table rerendered', table._id);
     const { requestState: deleteState, deleteQuestion } = useDeleteQuestion();
     const { user } = useAuth0();
-    const { isShown, text, notifiactionType, showTemporarily } = useNotificaiton();
+    const { notification, showTemporarily } = useNotificaiton();
 
     // If deletion was succesful, dont show the table anymore. Could also refetch all tables.
     if (deleteState.state === RequestState.Successful) {
@@ -115,7 +114,7 @@ export default function Table({
                     )}
                 </div>
             </div>
-            <Notification visible={isShown} text={text} theme={notifiactionType} />
+            <NotificationBox notification={notification} />
         </div>
     );
 }
