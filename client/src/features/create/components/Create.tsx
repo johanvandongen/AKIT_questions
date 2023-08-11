@@ -7,6 +7,7 @@ import useCreateQuestion from '../hooks/useCreateQuestion';
 import { RequestState } from '../../../models/IRequest';
 import { type IAnswer } from '../../../models/ITable';
 import { Button, Spinner } from '../../../components/ui';
+import { NotificationBox, useNotificaiton } from '../../notification';
 
 Modal.setAppElement('#root');
 
@@ -37,10 +38,13 @@ interface ICreateProps {
 export default function Create({ refresh }: ICreateProps): JSX.Element {
     const [modelIsOpen, setModalIsOpen] = useState(false);
     const { requestState, createQuestion } = useCreateQuestion();
+    const { notification, showTemporarily } = useNotificaiton();
 
     useEffect(() => {
         if (requestState.state === RequestState.Successful) {
             refresh();
+        } else if (requestState.state === RequestState.Error) {
+            showTemporarily(requestState.message, 'error');
         }
     }, [requestState.state]);
 
@@ -85,6 +89,7 @@ export default function Create({ refresh }: ICreateProps): JSX.Element {
                     <QuestionForm onSubmit={createQuestion} requestState={requestState} />
                 </div>
             </Modal>
+            <NotificationBox notification={notification} />
         </div>
     );
 }

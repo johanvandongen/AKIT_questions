@@ -8,12 +8,14 @@ import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
 import { axiosInstance } from '../utils/axiosInstance';
 import { TableView } from '../features/questionTable';
+import { NotificationBox, useNotificaiton } from '../features/notification';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
     const [activeTables, setActiveTables] = useState<ITable[] | null>(tables);
     const [columns, setColumns] = useState(3);
     const [isLoading, setIsLoading] = useState(false);
+    const { notification, showTemporarily } = useNotificaiton();
 
     const fetchTables = async (): Promise<void> => {
         setIsLoading(true);
@@ -26,6 +28,10 @@ export default function Home(): JSX.Element {
             })
             .catch((error) => {
                 console.log(error);
+                showTemporarily(
+                    error.message === undefined ? 'something went wrong' : error.message,
+                    'warning'
+                );
                 setIsLoading(false);
             })
             .finally(() => {
@@ -86,6 +92,7 @@ export default function Home(): JSX.Element {
                     }}
                 />
             )}
+            <NotificationBox notification={notification} />
         </div>
     );
 }
