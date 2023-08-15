@@ -3,12 +3,11 @@ import { type ITable } from '../models/ITable';
 import { useEffect, useState } from 'react';
 import { Create } from '../features/create';
 import UserInfo from '../features/userInfo/UserInfo';
-import Filter from '../features/filter/Filter';
-import UserSettings from '../features/filter/UserSettings';
 import { Button, Spinner } from '../components/ui';
 import { axiosInstance } from '../utils/axiosInstance';
 import { TableView } from '../features/questionTable';
 import { NotificationBox, useNotificaiton } from '../features/notification';
+import Settings from '../features/filter/Settings';
 
 export default function Home(): JSX.Element {
     const [tables, setTables] = useState<ITable[] | null>(null);
@@ -68,20 +67,16 @@ export default function Home(): JSX.Element {
                 <UserInfo />
             </div>
 
-            <div className="settings">
-                <UserSettings
-                    columns={columns}
-                    setColumns={(columns: number) => {
-                        setColumns(columns);
-                    }}
-                />
-                <Filter
-                    tables={tables === null ? [] : tables}
-                    setActiveTables={(tables: ITable[]) => {
-                        setActiveTables(tables);
-                    }}
-                />
-            </div>
+            <Settings
+                columns={columns}
+                setColumns={(columns: number) => {
+                    setColumns(columns);
+                }}
+                tables={tables === null ? [] : tables}
+                setActiveTables={(tables: ITable[]) => {
+                    setActiveTables(tables);
+                }}
+            />
 
             {activeTables !== null && (
                 <TableView

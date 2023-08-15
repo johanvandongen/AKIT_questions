@@ -3,22 +3,34 @@ import { useEffect, useState } from 'react';
 import { type ITable } from '../../models/ITable';
 import { answeredSearch, generalSearch, treatedOptions } from './utils/filterTable';
 import './styles.css';
+import { type IFilterStatistic } from './models/IFilterStatistic';
 
 interface IInputConfirmProps {
     tables: ITable[];
     setActiveTables: (tables: ITable[]) => void;
+    setFilterStatistics: (filterStatistic: IFilterStatistic) => void;
 }
 
-export default function Filter({ tables, setActiveTables }: IInputConfirmProps): JSX.Element {
+export default function Filter({
+    tables,
+    setActiveTables,
+    setFilterStatistics,
+}: IInputConfirmProps): JSX.Element {
     const [input, setInput] = useState<string>('');
     const [treated, setIsTreated] = useState<treatedOptions>(treatedOptions.all);
 
     const filter = (input: string): void => {
-        setActiveTables(
-            tables.filter((table) => {
-                return Boolean(generalSearch(table, input)) && answeredSearch(table, treated);
-            })
-        );
+        if (tables.length === 0) {
+            return;
+        }
+
+        const t0 = performance.now();
+        const activeTables = tables.filter((table) => {
+            return Boolean(generalSearch(table, input)) && answeredSearch(table, treated);
+        });
+        setActiveTables(activeTables);
+        const t1 = performance.now();
+        setFilterStatistics({ nrOfResults: activeTables.length, searchTime: t1 - t0 });
     };
 
     useEffect(() => {

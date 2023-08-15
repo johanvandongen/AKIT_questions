@@ -18,3 +18,19 @@
   .search-row p{
     padding-right: 1rem;
   }
+
+  .settings {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 5rem;
+    color: var(--gray10);
+    align-items: stretch;
+    justify-content: space-between;
+
+  }
+
+  .settings-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
