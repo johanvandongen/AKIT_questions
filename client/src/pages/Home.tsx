@@ -73,6 +73,7 @@ export default function Home(): JSX.Element {
                     setColumns(columns);
                 }}
                 tables={tables === null ? [] : tables}
+                activeTables={activeTables === null ? [] : activeTables}
                 setActiveTables={(tables: ITable[]) => {
                     setActiveTables(tables);
                 }}

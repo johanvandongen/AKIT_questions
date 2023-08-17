@@ -17,7 +17,7 @@ export default function FilterStatistic({ filterStatistic }: IFilterStatisticPro
     return (
         <>
             <p>
-                {filterStatistic.nrOfResults} {result} in {searchTime} milliseconds
+                {filterStatistic.nrOfResults} {result} in {searchTime} milliseconds{' '}
             </p>
         </>
     );
