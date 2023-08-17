@@ -5,23 +5,7 @@ import { type questionForm } from './Create';
 import { type IRequest, RequestState } from '../../../models/IRequest';
 import ImageUpload from './ImageUpload';
 import { Button } from '../../../components/ui';
-
-enum authors {
-    JAYIN = 'Jayin',
-    JOHAN = 'Johan',
-    KAY = 'Kay',
-    LIEKE = 'Lieke',
-    SEBAS = 'Sebas',
-    MAURITS = 'Maurits',
-    SIEM = 'Siem',
-    MILO = 'Milo',
-    MEIKE = 'Meike',
-    THOM = 'Thom',
-    DAVID = 'David',
-    FLEUR = 'Fleur',
-    CASPER = 'Casper',
-    OTHER = 'Anders',
-}
+import { authors } from '../../../models/authors';
 
 export interface IQuestionFormProps {
     onSubmit: any;
