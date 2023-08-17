@@ -43,24 +43,6 @@ body {
   width: 20%;
 }
 
-.settings {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 1rem 5rem;
-  color: var(--gray10);
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.settings .left-section {
-  width: 32%;
-}
-
-.settings .right-section {
-  /* width: 25%; */
-}
-
 .input-confirm {
   display: flex;
   justify-content: flex-start;

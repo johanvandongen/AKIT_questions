@@ -9,8 +9,8 @@ import AnswerSection from './AnswerSection';
 import { RequestState } from '../../../models/IRequest';
 import { Button, ImageList, Spinner } from '../../../components/ui';
 import './tableStyles.css';
-import { copyTable } from '../utils/utils';
 import { NotificationBox, useNotificaiton } from '../../notification';
+import { copyTable } from '../../../utils/copy.Clipboard';
 
 interface ITableProps {
     table: ITable;

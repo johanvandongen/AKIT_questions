@@ -8,7 +8,7 @@ export enum treatedOptions {
 }
 
 /**
- * Returns whether the given table a treated status of {@code answer}.
+ * Returns whether the given table has a treated status of {@code answer}.
  * @param table table
  * @param treated which treated state yoy want to filter on.
  */
@@ -17,6 +17,18 @@ export const answeredSearch = (table: ITable, treated: treatedOptions): boolean 
         return true;
     }
     return table.treated.state === treatedOptions[treated as keyof typeof treatedOptions];
+};
+
+/**
+ * Returns whether the given table has an author named {@code author}.
+ * @param table table
+ * @param author the name of the author.
+ */
+export const authorSearch = (table: ITable, author: string): boolean => {
+    if (author === 'all') {
+        return true;
+    }
+    return table.author === author;
 };
 
 /**
