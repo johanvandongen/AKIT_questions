@@ -1,5 +1,6 @@
-import { type ITable } from '../../../models/ITable';
+import { type ITable } from '../models/ITable';
 
+/** Converts a table object into a html string format. */
 const tableInHtmlString = (table: ITable): string => {
     const html = `<table border="1">
     <tr><td>table id</td><td>${table._id}</td></tr>
@@ -22,9 +23,24 @@ const tableInHtmlString = (table: ITable): string => {
     return html;
 };
 
+/** Copy a table object to the clipboard. */
 export const copyTable = (table: ITable): void => {
     const html: string = tableInHtmlString(table);
-    const blob = new Blob([html], { type: 'text/html' });
+    copyToClipboard(html);
+};
+
+/** Copy a list of tables to the clipboard. */
+export const copyTables = (tables: ITable[]): void => {
+    let html: string = '';
+    for (const table of tables) {
+        html += tableInHtmlString(table);
+    }
+    copyToClipboard(html);
+};
+
+/** Copy text to the clipboard. */
+export const copyToClipboard = (text: string): void => {
+    const blob = new Blob([text], { type: 'text/html' });
 
     navigator.clipboard
         .write([new ClipboardItem({ [blob.type]: blob })])
